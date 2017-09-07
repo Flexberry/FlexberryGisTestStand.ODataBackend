@@ -7,6 +7,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlexberryGisTestStand.Objec
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlexberryGisTestStand.ODataBackend", "ODataBackend\FlexberryGisTestStand.ODataBackend.csproj", "{F24E03DB-79E8-4628-87F9-975629EB0A0D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{A9D48DD7-6655-4F11-AB92-DAD69B90E6E1}"
+	ProjectSection(SolutionItems) = preProject
+		WebConfigTuner.ps1 = WebConfigTuner.ps1
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
