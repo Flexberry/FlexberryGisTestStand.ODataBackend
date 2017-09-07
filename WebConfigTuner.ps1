@@ -3,6 +3,8 @@ Param(
 	[String] $ConnectionStrings
 )
 
+echo $ConnectionStrings
+
 $path = $MyInvocation.MyCommand.Path | split-path -parent
 $webConfig = $path + '\ODataBackend\Web.config'
 $doc = (Get-Content $webConfig) -as [Xml]
