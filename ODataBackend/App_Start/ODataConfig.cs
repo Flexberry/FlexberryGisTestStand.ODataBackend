@@ -54,6 +54,7 @@
             var assemblies = new[]
             {
                 Assembly.Load("FlexberryGisTestStand.Objects"),
+                Assembly.Load("NewPlatform.Flexberry.GIS.Objects"),
                 typeof(ApplicationLog).Assembly,
                 typeof(UserSetting).Assembly,
                 typeof(FlexberryUserSetting).Assembly,
