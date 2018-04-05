@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.9
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlexberryGisTestStand.Objects", "Objects\FlexberryGisTestStand.Objects.csproj", "{EC6A8F59-4EF4-4ABD-89AF-69AFE645BE99}"
 EndProject
@@ -10,6 +10,12 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{A9D48DD7-6655-4F11-AB92-DAD69B90E6E1}"
 	ProjectSection(SolutionItems) = preProject
 		WebConfigTuner.ps1 = WebConfigTuner.ps1
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQL", "SQL", "{5CB3E1E6-4753-4393-BF4E-69ABAC760547}"
+	ProjectSection(SolutionItems) = preProject
+		SQL\MSSql.create.sql = SQL\MSSql.create.sql
+		SQL\PostgreSql.create.sql = SQL\PostgreSql.create.sql
 	EndProjectSection
 EndProject
 Global
