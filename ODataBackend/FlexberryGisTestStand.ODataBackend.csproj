@@ -306,6 +306,17 @@
     </Content>
     <None Include="Properties\PublishProfiles\Internet.pubxml" />
     <None Include="Properties\PublishProfiles\LocalIntranet.pubxml" />
+    <Content Include="Web.Docker.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web.Docker.Debug.config">
+      <DependentUpon>Web.Docker.config</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Web.Docker.Release.config">
+      <DependentUpon>Web.Docker.config</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
