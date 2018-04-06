@@ -125,8 +125,7 @@
       <HintPath>..\packages\NewPlatform.Flexberry.AspNet.WebApi.Cors.1.1.1\lib\net45\NewPlatform.Flexberry.AspNet.WebApi.Cors.dll</HintPath>
     </Reference>
     <Reference Include="NewPlatform.Flexberry.Caching, Version=1.0.0.0, Culture=neutral, PublicKeyToken=43b437d0302b56ae, processorArchitecture=MSIL">
-      <HintPath>..\packages\NewPlatform.Flexberry.Caching.1.0.0-beta01\lib\net45\NewPlatform.Flexberry.Caching.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\NewPlatform.Flexberry.Caching.1.0.0-beta02\lib\net45\NewPlatform.Flexberry.Caching.dll</HintPath>
     </Reference>
     <Reference Include="NewPlatform.Flexberry.GIS.Objects, Version=1.0.0.1, Culture=neutral, PublicKeyToken=74926f33eba8d042, processorArchitecture=MSIL">
       <HintPath>..\packages\NewPlatform.Flexberry.GIS.Objects.0.3.0-beta06\lib\net45\NewPlatform.Flexberry.GIS.Objects.dll</HintPath>
