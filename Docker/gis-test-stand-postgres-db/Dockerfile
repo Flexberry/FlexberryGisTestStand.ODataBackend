@@ -1,4 +1,4 @@
-FROM flexberry/alt.p8-postgresql
+FROM flexberry/alt.p8-postgresql-postgis
 
 
 COPY . /docker/
