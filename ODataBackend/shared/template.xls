@@ -1,0 +1,294 @@
+﻿<?xml version="1.0"?>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+xmlns:kpt="urn://x-artefacts-rosreestr-ru/outgoing/kpt/10.0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:adr="urn://x-artefacts-rosreestr-ru/commons/complex-types/address-output/4.0.1" xmlns:cert="urn://x-artefacts-rosreestr-ru/commons/complex-types/certification-doc/1.0" xmlns:doc="urn://x-artefacts-rosreestr-ru/commons/complex-types/document-output/4.0.1" xmlns:param="urn://x-artefacts-rosreestr-ru/commons/complex-types/parameters-oks/2.0.1" xmlns:spa="urn://x-artefacts-rosreestr-ru/commons/complex-types/entity-spatial/5.0.1" xmlns:tns="urn://x-artefacts-smev-gov-ru/supplementary/commons/1.0.1" version="1.0">
+
+  <xsl:output method="text"/>
+  <!--Перменные -->
+  <xsl:variable name="blocks" select="descendant::kpt:CadastralBlock"/>
+  <xsl:variable name="CadastralNumber" select="$blocks/@CadastralNumber"/>
+  <xsl:variable name="AreaTotal" select="$blocks/kpt:Area/kpt:Total"/>
+  <xsl:variable name="parcels" select="$blocks/kpt:Parcels"/>
+  <xsl:variable name="zones" select="$blocks/kpt:Zones"/>
+  <xsl:variable name="contours" select="$blocks//kpt:Contours"/>
+  <xsl:variable name="bounds" select="$blocks/kpt:Bounds"/>
+  <xsl:variable name="objects" select="$blocks/kpt:ObjectsRealty"/>
+  <xsl:variable name="spatials" select="$blocks/kpt:SpatialData" />
+
+  <!--Основной шаблон -->
+  <xsl:template match="/">
+    <xsl:text>{  "type": "FeatureCollection", "features": [</xsl:text>
+    <xsl:if test="$parcels">
+      <xsl:call-template name="JsonConvert">
+        <xsl:with-param name="elementKPT" select="$parcels/kpt:Parcel"/>
+      </xsl:call-template>
+    </xsl:if>
+    <xsl:if test="$zones">
+      <xsl:call-template name="JsonConvert">
+        <xsl:with-param name="elementKPT" select="$zones/kpt:Zone"/>
+      </xsl:call-template>
+    </xsl:if>
+    <xsl:if test="$objects/descendant::kpt:Building">
+      <xsl:call-template name="JsonConvert">
+        <xsl:with-param name="elementKPT" select="$objects/kpt:ObjectRealty/kpt:Building"/>
+      </xsl:call-template>
+    </xsl:if>
+    <xsl:if test="$objects/descendant::kpt:Uncompleted">
+      <xsl:call-template name="JsonConvert">
+        <xsl:with-param name="elementKPT" select="$objects/kpt:ObjectRealty/kpt:Uncompleted"/>
+      </xsl:call-template>
+    </xsl:if>
+    <xsl:if test="$objects/descendant::kpt:Construction">
+      <xsl:call-template name="JsonConvert">
+        <xsl:with-param name="elementKPT" select="$objects/kpt:ObjectRealty/kpt:Construction"/>
+      </xsl:call-template>
+    </xsl:if>
+    <xsl:if test="$spatials">
+      <xsl:call-template name="JsonConvert">
+        <xsl:with-param name="elementKPT" select="$spatials"/>
+      </xsl:call-template>
+    </xsl:if>
+    <xsl:if test="$bounds">
+      <xsl:call-template name="JsonConvert">
+        <xsl:with-param name="elementKPT" select="$bounds/kpt:Bound/kpt:Boundaries/kpt:Boundary"/>
+      </xsl:call-template>
+    </xsl:if>
+    <xsl:text>{}]}</xsl:text>
+  </xsl:template>
+
+  <!--Шаблон для преобразования кода в значение -->
+  <xsl:template name="ValueXSD">
+    <xsl:param name="kod" select="."/>
+    <xsl:param name="var" select="."/>
+    <xsl:if test="$kod">
+      <xsl:value-of select="$var//xs:enumeration[@value=$kod]/xs:annotation/xs:documentation"/>
+    </xsl:if>
+  </xsl:template>
+
+  <!--Шаблон замены &quot; в тексте -->
+  <xsl:template match="text()" name="escape-quot">
+    <xsl:param name="s" select="."/>
+    <xsl:choose>
+      <xsl:when test="contains($s,'&quot;')">
+        <xsl:variable name="sL"
+          select="substring-before($s,'&quot;')"/>
+        <xsl:variable name="sR"
+          select="substring-after($s,'&quot;')"/>
+        <xsl:value-of select="$sL"/>
+        <xsl:text></xsl:text>
+        <xsl:call-template name="escape-quot">
+          <xsl:with-param name="s" select="$sR"/>
+        </xsl:call-template>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="$s"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <!--Шаблон преобразования в Json -->
+  <xsl:template name="JsonConvert">
+    <xsl:param name="elementKPT" select="."/>
+    <xsl:for-each select="$elementKPT">
+      <xsl:choose>
+        <xsl:when test="./kpt:Contours">
+          <xsl:variable name="countSE" select="count(./kpt:EntitySpatial/spa:SpatialElement)"/>
+          <xsl:variable name="countContour" select="count($contours//kpt:Contour)"/>
+          <xsl:text>{"type": "Feature","geometry": {"type": "MultiPolygon","coordinates":[[</xsl:text>
+          <xsl:if test="$countSE > 1">[</xsl:if>
+          <xsl:for-each select="./kpt:Contours/kpt:Contour">
+            <xsl:sort select="./@NumberRecord" data-type="number"/>
+            <xsl:variable name="countSE1" select="count(./kpt:EntitySpatial/spa:SpatialElement)"/>
+            <xsl:if test="$countContour > 1">[</xsl:if>
+            <xsl:for-each select="./kpt:EntitySpatial/descendant::spa:SpatialElement/spa:SpelementUnit">
+              <xsl:text>[</xsl:text>
+              <xsl:value-of select="./spa:Ordinate/@X"/>,
+              <xsl:value-of select="./spa:Ordinate/@Y"/>
+              <xsl:text>]</xsl:text>
+              <xsl:if test="count(../spa:SpelementUnit) = position() and $countSE1 > 1">],[</xsl:if>
+              <xsl:if test="count(../spa:SpelementUnit) != position() and position() != last() ">,</xsl:if>
+            </xsl:for-each>
+            <xsl:if test="./@NumberRecord = position() and position() != last()">]],[</xsl:if>
+          </xsl:for-each>
+          <xsl:if test="$countSE > 1">]</xsl:if>
+          <xsl:if test="$countContour > 1">]</xsl:if>
+          <xsl:text>]]},</xsl:text>
+          <xsl:call-template name="Properties">
+            <xsl:with-param name="s" select="$elementKPT"/>
+          </xsl:call-template>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:variable name="countSE" select="count(./kpt:EntitySpatial/spa:SpatialElement)"/>
+          <xsl:if test="not(./kpt:Contours/kpt:Contour)">
+            <xsl:text>{"type": "Feature","geometry": {"type": "Polygon","coordinates":[[</xsl:text>
+          </xsl:if>
+          <xsl:if test="$countSE > 1">[</xsl:if>
+          <xsl:for-each select="./kpt:EntitySpatial/descendant::spa:SpatialElement/spa:SpelementUnit">
+            <xsl:text>[</xsl:text>
+            <xsl:value-of select="./spa:Ordinate/@X"/>,
+            <xsl:value-of select="./spa:Ordinate/@Y"/>
+            <xsl:text>]</xsl:text>
+            <xsl:if test="count(../spa:SpelementUnit) = position() and $countSE > 1">],[</xsl:if>
+            <xsl:if test="count(../spa:SpelementUnit) != position() and position() != last() ">,</xsl:if>
+          </xsl:for-each>
+          <xsl:if test="not(./kpt:Contours/kpt:Contour)">
+            <xsl:if test="$countSE > 1">]</xsl:if>
+            <xsl:text>]]},</xsl:text>
+            <xsl:call-template name="Properties">
+              <xsl:with-param name="s" select="$elementKPT"/>
+            </xsl:call-template>
+          </xsl:if>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:for-each>
+  </xsl:template>
+
+  <!--Шаблон properties -->
+  <xsl:template name="Properties">
+    <xsl:param name="props" select="."/>
+    <xsl:variable name="utilization" select="document('schema/KPT_v10/SchemaCommon/dUtilizations_v01.xsd')"/>
+    <xsl:variable name="units" select="document('schema/KPT_v10/SchemaCommon/dUnit_v01.xsd')"/>
+    <xsl:variable name="assign" select="document('schema/KPT_v10/SchemaCommon/dAssBuilding_v01.xsd')"/>
+    <xsl:variable name="state" select="document('schema/KPT_v10/SchemaCommon/dStates_v01.xsd')"/>
+    <xsl:variable name="category" select="document('schema/KPT_v10/SchemaCommon/dCategories_v01.xsd')"/>
+
+    <xsl:text>"properties": {</xsl:text>
+    <xsl:if test="name($props) = 'Parcel'">
+      <xsl:text>"objectType": "ЗУ"</xsl:text>,
+      <xsl:text>"Cadastral Number":"</xsl:text>
+      <xsl:if test="$props/@CadastralNumber= ''">NULL</xsl:if>
+      <xsl:value-of select="$props/@CadastralNumber" />",
+      <xsl:text>"Area":"</xsl:text>
+      <xsl:value-of select="$props/kpt:Area/kpt:Area"/>",
+      <xsl:text>"Units":"</xsl:text>
+      <xsl:call-template name="ValueXSD">
+        <xsl:with-param name="kod" select="$props/kpt:Area/kpt:Unit"/>
+        <xsl:with-param name="var" select="$units"/>
+      </xsl:call-template>",
+      <xsl:text>"State":"</xsl:text>
+      <xsl:call-template name="ValueXSD">
+        <xsl:with-param name="kod" select="$props/@State"/>
+        <xsl:with-param name="var" select="$state"/>
+      </xsl:call-template>",
+      <xsl:text>"Utilization":"</xsl:text>
+      <xsl:call-template name="ValueXSD">
+        <xsl:with-param name="kod" select="$props/kpt:Utilization/@Utilization"/>
+        <xsl:with-param name="var" select="$utilization"/>
+      </xsl:call-template>",
+      <xsl:text>"Address":"</xsl:text>
+      <xsl:call-template name="escape-quot">
+        <xsl:with-param name="s" select="$props/kpt:Location/kpt:Address/adr:Note"></xsl:with-param>
+      </xsl:call-template>",
+      <xsl:text>"Description":" </xsl:text>
+      <xsl:text>"}},</xsl:text>
+    </xsl:if>
+    <xsl:if test="name($props) = 'Zone'">
+      <xsl:text>"objectType": "Зона"</xsl:text>,
+      <xsl:text>"Cadastral Number":"</xsl:text>
+      <xsl:if test="$blocks/@CadastralNumber= ''">NULL</xsl:if>
+      <xsl:value-of select="$blocks/@CadastralNumber" />",
+      <xsl:text>"Area":" "</xsl:text>,
+      <xsl:text>"Units":" "</xsl:text>,
+      <xsl:text>"State":" "</xsl:text>,
+      <xsl:text>"Utilization":" "</xsl:text>,
+      <xsl:text>"Address":" "</xsl:text>,
+      <xsl:text>"Description":"</xsl:text>
+      <xsl:call-template name="escape-quot">
+        <xsl:with-param name="s" select="$props/kpt:Description"></xsl:with-param>
+      </xsl:call-template>
+      <xsl:text>"}},</xsl:text>
+    </xsl:if>
+    <xsl:if test="name($props) = 'Building'">
+      <xsl:text>"objectType": "ОКС"</xsl:text>,
+      <xsl:text>"Cadastral Number":"</xsl:text>
+      <xsl:if test="$props/@CadastralNumber= ''">NULL</xsl:if>
+      <xsl:value-of select="$props/@CadastralNumber" />",
+      <xsl:text>"Area":"</xsl:text>
+      <xsl:value-of select="$props/kpt:Area"/>",
+      <xsl:text>"Units":" "</xsl:text>,
+      <xsl:text>"State":" "</xsl:text>,
+      <xsl:text>"Assignation Building":"</xsl:text>
+      <xsl:call-template name="ValueXSD">
+        <xsl:with-param name="kod" select="$props/kpt:AssignationBuilding"/>
+        <xsl:with-param name="var" select="$assign"/>
+      </xsl:call-template>",
+      <xsl:text>"Adress":"</xsl:text>
+      <xsl:call-template name="escape-quot">
+        <xsl:with-param name="s" select="$props/kpt:Address/adr:Note"></xsl:with-param>
+      </xsl:call-template>",
+      <xsl:text>"Description":" </xsl:text>
+      <xsl:text>"}},</xsl:text>
+    </xsl:if>
+    <xsl:if test="name($props) = 'Uncompleted'">
+      <xsl:text>"objectType": "ОКС незавершённые"</xsl:text>,
+      <xsl:text>"Cadastral Number":"</xsl:text>
+      <xsl:if test="$props/@CadastralNumber= ''">NULL</xsl:if>
+      <xsl:value-of select="$props/@CadastralNumber" />",
+      <xsl:text>"Area":" "</xsl:text>,
+      <xsl:text>"Units":" "</xsl:text>,
+      <xsl:text>"State":" "</xsl:text>,
+      <xsl:text>"Assignation Name":"</xsl:text>
+      <xsl:call-template name="escape-quot">
+        <xsl:with-param name="s" select="$props/kpt:AssignationName"></xsl:with-param>
+      </xsl:call-template>",
+      <xsl:text>"Адрес":"</xsl:text>
+      <xsl:call-template name="escape-quot">
+        <xsl:with-param name="s" select="$props/kpt:Address/adr:Note"></xsl:with-param>
+      </xsl:call-template>",
+      <xsl:text>"Description":"</xsl:text>
+      <xsl:text>"}},</xsl:text>
+    </xsl:if>
+    <xsl:if test="name($props) = 'Construction'">
+      <xsl:text>"objectType": "ОКС кострукция"</xsl:text>,
+      <xsl:text>"Cadastral Number":"</xsl:text>
+      <xsl:if test="$props/@CadastralNumber= ''">NULL</xsl:if>
+      <xsl:value-of select="$props/@CadastralNumber" />",
+      <xsl:text>"Area":" "</xsl:text>,
+      <xsl:text>"Units":" "</xsl:text>,
+      <xsl:text>"State":" "</xsl:text>,
+      <xsl:text>"Assignation Name":"</xsl:text>
+      <xsl:call-template name="escape-quot">
+        <xsl:with-param name="s" select="$props/kpt:AssignationName"></xsl:with-param>
+      </xsl:call-template>",
+      <xsl:text>"Адрес":"</xsl:text>
+      <xsl:call-template name="escape-quot">
+        <xsl:with-param name="s" select="$props/kpt:Address/adr:Note"></xsl:with-param>
+      </xsl:call-template>",
+      <xsl:text>"Description":"</xsl:text>
+      <xsl:text>"}},</xsl:text>
+    </xsl:if>
+    <xsl:if test="name($props) = 'SpatialData'">
+      <xsl:text>"objectType": "Граница кадастрового квартала"</xsl:text>,
+      <xsl:text>"Cadastral Number":"</xsl:text>
+      <xsl:if test="$blocks/@CadastralNumber= ''">NULL</xsl:if>
+      <xsl:value-of select="$blocks/@CadastralNumber" />",
+      <xsl:text>"Area":"</xsl:text>
+      <xsl:value-of select="$blocks/kpt:Area/kpt:Total"/>",
+      <xsl:text>"Units":"</xsl:text>
+      <xsl:call-template name="ValueXSD">
+        <xsl:with-param name="kod" select="$blocks/kpt:Area/kpt:Unit"/>
+        <xsl:with-param name="var" select="$units"/>
+      </xsl:call-template>",
+      <xsl:text>"State":" "</xsl:text>,
+      <xsl:text>"Utilization":" "</xsl:text>,
+      <xsl:text>"Address":" "</xsl:text>,
+      <xsl:text>"Description":" </xsl:text>
+      <xsl:text>"}},</xsl:text>
+    </xsl:if>
+    <xsl:if test="name($props) = 'Boundary'">
+      <xsl:text>"objectType": "Граница"</xsl:text>,
+      <xsl:text>"Cadastral Number":"</xsl:text>
+      <xsl:if test="$blocks/@CadastralNumber= ''">NULL</xsl:if>
+      <xsl:value-of select="$blocks/@CadastralNumber" />",
+      <xsl:text>"Area":" "</xsl:text>,
+      <xsl:text>"Units":" "</xsl:text>,
+      <xsl:text>"State":" "</xsl:text>,
+      <xsl:text>"Utilization":" "</xsl:text>,
+      <xsl:text>"Address":" "</xsl:text>,
+      <xsl:text>"Description":"</xsl:text>
+      <xsl:call-template name="escape-quot">
+        <xsl:with-param name="s" select="$props/kpt:Description"></xsl:with-param>
+      </xsl:call-template>
+      <xsl:text>"}},</xsl:text>
+    </xsl:if>
+  </xsl:template>
+</xsl:stylesheet>

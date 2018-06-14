@@ -284,7 +284,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="controls\FileUploaderHandler.ashx.cs">
+      <DependentUpon>FileUploaderHandler.ashx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Content Include="controls\FileUploaderHandler.ashx" />
     <None Include="packages.config" />
     <Content Include="Global.asax" />
     <Compile Include="Global.asax.cs">
@@ -311,6 +315,7 @@
       <DependentUpon>Web.Docker.config</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="shared\template.xls" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
