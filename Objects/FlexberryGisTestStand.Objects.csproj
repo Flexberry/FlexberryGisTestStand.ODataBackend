@@ -31,6 +31,16 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\FlexberryGisTestStand.Objects.xml</DocumentationFile>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Cloud|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Cloud\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>bin\Debug\FlexberryGisTestStand.Objects.xml</DocumentationFile>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="ChangesToSqlBTMonitor, Version=1.0.0.1, Culture=neutral, PublicKeyToken=e5ad39f116a43e0b, processorArchitecture=MSIL">
       <HintPath>..\packages\NewPlatform.Flexberry.ORM.4.1.0\lib\net45\ChangesToSqlBTMonitor.dll</HintPath>
