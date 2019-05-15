@@ -4,8 +4,6 @@ services:
     image: "flexberry/gis-test-stand-postgres-db:latest"
     volumes:
       - GisTestStandDB:/var/lib/pgsql/data/
-    ports:
-     - "5432:5432"
   GisTestStand:
     image: "flexberry/gis-test-stand:latest"
     ports:
