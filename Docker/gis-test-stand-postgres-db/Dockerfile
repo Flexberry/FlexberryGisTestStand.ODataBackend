@@ -1,11 +1,9 @@
 FROM flexberry/alt.p8-postgresql-postgis
 
-COPY /host /docker/
+COPY /host /host
 
-ARG TAG
-RUN cd /docker/host/ && \
-  /bin/sh ./createdb.sh && \
-  rm -rf /docker
+RUN cd /host/ && \
+  ./createdb.sh
 
 MAINTAINER mail@flexberry.net
 
