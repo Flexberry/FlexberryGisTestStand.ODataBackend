@@ -20,3 +20,4 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Change version of images in yml-files from  latest to 1.1
 
 
+
