@@ -1,13 +1,11 @@
 FROM mono:latest as backend
 
-ARG TAG
-RUN	echo TAG=$TAG ; \
+COPY /sources /sources
+
+RUN	 \
 	mono --version ; \
-    apt update ; \
-	apt install -y git ; \
-	git clone --depth=50 --branch=$TAG https://github.com/Flexberry/FlexberryGisTestStand.ODataBackend.git /Flexberry/FlexberryGisTestStand.ODataBackend ; \
 	msbuild /version ; \
-	cd /Flexberry/FlexberryGisTestStand.ODataBackend ; \
+	cd /sources ; \
 	nuget restore FlexberryGisTestStand.sln ; \
 	msbuild /p:Configuration=Release FlexberryGisTestStand.sln
 
@@ -15,7 +13,7 @@ FROM flexberry/alt.p8-apache2-mono:latest
 
 MAINTAINER mail@flexberry.net
 
-COPY --from=backend /Flexberry/FlexberryGisTestStand.ODataBackend/ODataBackend /var/www/vhosts/gis-test-stand
+COPY --from=backend /sources/ODataBackend /var/www/vhosts/gis-test-stand
 COPY vhosts.conf /conf
 
 RUN 	rm -f /var/www/vhosts/gis-test-stand/bin/Mono.Security.dll ; \
