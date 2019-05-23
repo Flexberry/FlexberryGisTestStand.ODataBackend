@@ -1,2 +1,2 @@
-IMAGE=flexberry/gis-test-stand-postgres-db
+IMAGE=gis-test-stand-postgres-db
 
