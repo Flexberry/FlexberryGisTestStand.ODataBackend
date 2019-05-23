@@ -1,17 +1,16 @@
-version: '3'
+version: "3.7"
 services:
   GisTestStandPostgres:
     image: "flexberry/gis-test-stand-postgres-db:latest"
-    volumes:
-      - GisTestStandDB:/var/lib/pgsql/data/
   GisTestStand:
     image: "flexberry/gis-test-stand:latest"
     ports:
-     - "1818:80"
+     - 1818:80
   GisTestStandGeoserver:
     image: "flexberry/gis-test-stand-geoserver:latest"
-    port:
-     - "1819:8080"
-
-volumes:
-  GisTestStandDB: 
+    ports:
+      - 1819:8080
+    environment:
+      GEOSERVER_LOG_LOCATION: /dev/null
+    depends_on:
+      - GisTestStandPostgres
