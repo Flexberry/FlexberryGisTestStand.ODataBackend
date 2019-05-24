@@ -1,2 +1,2 @@
 language: csharp
-solution: FlexberryGisTestStand.sln
+solution: Docker/gis-test-stand-odata/sources/FlexberryGisTestStand.sln
