@@ -11,7 +11,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 
 ### Changed
-- Git-tagging of images changes from 1.1.0-postgresql-db, to gis-test-stand-postgres-db_1.1.0
+- Git-tagging of images changes from 1.1.0-postgresql-db, to gis-test-stand-postgres-db_1.1.0 [See this article](https://github.com/Flexberry/dockerfiles/blob/master/tags.md)
 - Image flexberry/gis-test-stand rename to flexberry/gis-test-stand-odata;
 - Optimize Files structure (move /SQL to Docker/gis-test-stand-postgres-db/host, source of odata to Docker/gis-test-stand-odata/source);
 - Optimize Dockerfiles, remove git clone ..., wget ... from native repository;
