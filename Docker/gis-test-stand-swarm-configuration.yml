@@ -10,7 +10,7 @@ services:
      - "1818:80"
   GisTestStandGeoserver:
     image: "flexberry/gis-test-stand-geoserver:1.1"
-    port:
+    ports:
      - "1819:8080"
 
 volumes:
