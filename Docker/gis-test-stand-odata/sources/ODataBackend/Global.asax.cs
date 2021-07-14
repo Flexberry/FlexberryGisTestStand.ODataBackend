@@ -6,8 +6,8 @@
 
     using ICSSoft.STORMNET.Business;
 
-    using Microsoft.Practices.Unity;
     using Microsoft.Practices.Unity.Configuration;
+    using Unity;
 
     /// <summary>
     /// Global class which is used at application startup.
@@ -24,7 +24,7 @@
             IUnityContainer container = new UnityContainer();
             container.LoadConfiguration();
             container.RegisterInstance(DataServiceProvider.DataService);
-            GlobalConfiguration.Configure(configuration => ODataConfig.Configure(configuration, container));
+            GlobalConfiguration.Configure(configuration => ODataConfig.Configure(configuration, container, GlobalConfiguration.DefaultServer));
         }
     }
 }

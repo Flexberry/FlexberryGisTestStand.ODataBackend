@@ -1,6 +1,6 @@
-/packages/
-*/bin/
-*/obj/
+*/*/*/packages/
+*/*/*/*/bin/
+*/*/*/*/obj/
 .vs
 *.csproj.user
 *.pubxml.user
