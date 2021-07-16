@@ -1,25 +1,24 @@
 ﻿namespace IIS.FlexberryGisTestStand
 {
     using System;
+    using System.Data;
+    using System.Data.SqlClient;
+    using System.Linq;
     using System.Reflection;
-
+    using System.Web;
     using System.Web.Http;
-    using System.Web.Http.Cors;
-
-   
-    using ICSSoft.STORMNET;
     using ICSSoft.Services;
-
+    using ICSSoft.STORMNET;
+    using ICSSoft.STORMNET.Business;
     using IIS.Caseberry.Logging.Objects;
-
-    using Microsoft.Practices.Unity;
-
-    using NewPlatform.Flexberry;
-    using NewPlatform.Flexberry.ORM.ODataService;
+    using NewPlatform.Flexberry.AspNet.WebApi.Cors;
     using NewPlatform.Flexberry.ORM.ODataService.Extensions;
     using NewPlatform.Flexberry.ORM.ODataService.Functions;
     using NewPlatform.Flexberry.ORM.ODataService.Model;
+    using NewPlatform.Flexberry.ORM.ODataService.WebApi.Extensions;
     using NewPlatform.Flexberry.Services;
+    using Unity;
+    using Unity.AspNet.WebApi;
 
 
     /// <summary>
@@ -32,7 +31,7 @@
         /// </summary>
         /// <param name="config">Http configuration object.</param>
         /// <param name="container">Unity container.</param>
-        public static void Configure(HttpConfiguration config, IUnityContainer container)
+        public static void Configure(HttpConfiguration config, IUnityContainer container, HttpServer httpServer)
         {
             if (config == null)
             {
@@ -44,8 +43,7 @@
                 throw new ArgumentNullException(nameof(container));
             }
 
-            var cors = new EnableCorsAttribute("*", "*", "*");
-            config.EnableCors(cors);
+            config.EnableCors(new DynamicCorsPolicyProvider(true));
 
             // Use Unity as WebAPI dependency resolver
             config.DependencyResolver = new UnityDependencyResolver(container);
@@ -57,13 +55,12 @@
                 Assembly.Load("NewPlatform.Flexberry.GIS.Objects"),
                 typeof(ApplicationLog).Assembly,
                 typeof(UserSetting).Assembly,
-                typeof(FlexberryUserSetting).Assembly,
                 typeof(Lock).Assembly
             };
             var builder = new DefaultDataObjectEdmModelBuilder(assemblies);
 
             // Map OData Service
-            var token = config.MapODataServiceDataObjectRoute(builder);
+            var token = config.MapODataServiceDataObjectRoute(builder, httpServer);
 
             // Register OData event handlers.
             token.Events.CallbackAfterCreate = CallbackAfterCreate;
