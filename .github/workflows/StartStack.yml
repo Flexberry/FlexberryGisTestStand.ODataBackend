@@ -1,1 +1,54 @@
+name: (Re)Start docker stack by script on Test Stand
+
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
+on:
+  workflow_dispatch:
+    # Inputs the workflow accepts.
+    inputs:
+
+      host:
+        description: 'BackEnd host'
+        default: 'stands-backend.flexberry.net'
+        required: true
+
+      scriptDir:
+        description: 'ScriptDir to (Re)start stack'
+        default: 'flexberryGisTestStand'
+        required: true
+
+jobs:
+  restartStack:
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - uses: actions/checkout@v2
+
+    - name: Tune ssh-keys
+      env:
+          ENCRYPTION_KEY: ${{ secrets.ENCRYPTION_KEY }}
+      run: |
+        set -x
+        export ENCRYPTION_KEY
+        #  Recover private key
+        openssl aes-256-cbc -in .github/workflows/secrets/id_rsa.enc -out .github/workflows/secrets/id_rsa -pass pass:$ENCRYPTION_KEY -d -md sha1
+        # Setup SSH agent
+        export SSH_AUTH_SOCK=/tmp/ssh_agent.sock
+        mkdir -p ~/.ssh
+        ssh-keyscan ${{ github.event.inputs.host }} >> ~/.ssh/known_hosts
+        # Start ssh agent
+        ssh-agent -a $SSH_AUTH_SOCK #> /dev/null
+        chmod 0600 .github/workflows/secrets/id_rsa
+        ssh-add .github/workflows/secrets/id_rsa
+
+    - name: Update Stack on stands-backend.flexberry.net
+      env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+      run: |
+        set -x
+        export GH_TOKEN=${{ secrets.GITHUB_TOKEN }}
+        export SSH_AUTH_SOCK
+        ssh icsadmin@${{ github.event.inputs.host }} 'cd ~icsadmin/${{ github.event.inputs.scriptDir }}; ./start.sh'
+        
 
