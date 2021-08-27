@@ -49,6 +49,6 @@ jobs:
         set -x
         export GH_TOKEN=${{ secrets.GITHUB_TOKEN }}
         export SSH_AUTH_SOCK
-        ssh icsadmin@${{ github.event.inputs.host }} 'cd ~icsadmin/${{ github.event.inputs.scriptDir }}; ./start.sh'
+        ssh gisteststand@${{ github.event.inputs.host }} 'cd ~icsadmin/${{ github.event.inputs.scriptDir }}; ./start.sh'
         
 
