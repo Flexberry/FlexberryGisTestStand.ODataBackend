@@ -42,7 +42,7 @@ jobs:
         chmod 0600 .github/workflows/secrets/id_rsa
         ssh-add .github/workflows/secrets/id_rsa
 
-    - name: Update Stack on stands-backend.flexberry.net
+    - name: Stop Stack on stands-backend.flexberry.net
       env:
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
       run: |
