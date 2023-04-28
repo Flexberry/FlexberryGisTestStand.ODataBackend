@@ -39,7 +39,7 @@ namespace IIS.FlexberryGisTestStand
         
         private string fPlace;
         
-        private System.Windows.Media.Geometry fLocation;
+        private Microsoft.Spatial.Geometry fLocation;
         
         // *** Start programmer edit section *** (Address CustomMembers)
 
@@ -84,14 +84,14 @@ namespace IIS.FlexberryGisTestStand
         // *** Start programmer edit section *** (Address.Location CustomAttributes)
 
         // *** End programmer edit section *** (Address.Location CustomAttributes)
-        public virtual System.Windows.Media.Geometry Location
+        public virtual Microsoft.Spatial.Geometry Location
         {
             get
             {
                 // *** Start programmer edit section *** (Address.Location Get start)
 
                 // *** End programmer edit section *** (Address.Location Get start)
-                System.Windows.Media.Geometry result = this.fLocation;
+                Microsoft.Spatial.Geometry result = this.fLocation;
                 // *** Start programmer edit section *** (Address.Location Get end)
 
                 // *** End programmer edit section *** (Address.Location Get end)
