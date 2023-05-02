@@ -44,5 +44,6 @@ jobs:
         shell: powershell
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"Flexberry_FlexberryGisTestStand.ODataBackend" /o:"flexberry" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          <insert_your_build_command>
+          nuget restore "Docker/gis-test-stand-odata/sources/FlexberryGisTestStand.sln" -NonInteractive
+          msbuild /verbosity:quiet /p:WarningLevel=0 /p:Configuration=Debug "Docker/gis-test-stand-odata/sources/FlexberryGisTestStand.sln"
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
