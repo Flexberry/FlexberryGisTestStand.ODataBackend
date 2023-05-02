@@ -7,7 +7,6 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Cloud|AnyCPU'">
     <OutputPath>bin\</OutputPath>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRuleSet>..\Flexberry.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup>

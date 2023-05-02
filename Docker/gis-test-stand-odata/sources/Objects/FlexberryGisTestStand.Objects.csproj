@@ -16,7 +16,7 @@
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Cloud\</OutputPath>
     <DocumentationFile>bin\Debug\FlexberryGisTestStand.Objects.xml</DocumentationFile>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\Flexberry.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <None Update="appsettings.json">
