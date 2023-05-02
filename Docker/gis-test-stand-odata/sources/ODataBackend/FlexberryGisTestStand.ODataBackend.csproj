@@ -1,321 +1,40 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>
-    </ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{F24E03DB-79E8-4628-87F9-975629EB0A0D}</ProjectGuid>
-    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>IIS.FlexberryGisTestStand</RootNamespace>
+    <TargetFramework>net7.0</TargetFramework>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <AssemblyName>FlexberryGisTestStand.ODataBackend</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <UseIISExpress>true</UseIISExpress>
-    <SccProjectName>
-    </SccProjectName>
-    <SccLocalPath>
-    </SccLocalPath>
-    <SccAuxPath>
-    </SccAuxPath>
-    <SccProvider>
-    </SccProvider>
-    <IISExpressSSLPort />
-    <IISExpressAnonymousAuthentication />
-    <IISExpressWindowsAuthentication />
-    <IISExpressUseClassicPipelineMode />
-    <UseGlobalApplicationHostFile />
-    <Use64BitIISExpress />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
     <OutputPath>bin\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="ChangesToSqlBTMonitor, Version=1.0.0.1, Culture=neutral, PublicKeyToken=e5ad39f116a43e0b, processorArchitecture=MSIL">
-      <HintPath>..\packages\NewPlatform.Flexberry.ORM.5.1.0\lib\net45\ChangesToSqlBTMonitor.dll</HintPath>
-    </Reference>
-    <Reference Include="ExternalLangDef, Version=1.0.0.0, Culture=neutral, PublicKeyToken=50dc27591ed591e6, processorArchitecture=MSIL">
-      <HintPath>..\packages\NewPlatform.Flexberry.ORM.5.1.0\lib\net45\ExternalLangDef.dll</HintPath>
-    </Reference>
-    <Reference Include="ICSSoft.Services.CurrentUserService, Version=1.0.0.1, Culture=neutral, PublicKeyToken=087bc7ccdc1b0bb4, processorArchitecture=MSIL">
-      <HintPath>..\packages\NewPlatform.Flexberry.ORM.5.1.0\lib\net45\ICSSoft.Services.CurrentUserService.dll</HintPath>
-    </Reference>
-    <Reference Include="ICSSoft.Services.UnityFactory, Version=1.0.0.1, Culture=neutral, PublicKeyToken=6389c2e26f4059bc, processorArchitecture=MSIL">
-      <HintPath>..\packages\NewPlatform.Flexberry.ORM.5.1.0\lib\net45\ICSSoft.Services.UnityFactory.dll</HintPath>
-    </Reference>
-    <Reference Include="ICSSoft.STORMNET.Business, Version=1.0.0.1, Culture=neutral, PublicKeyToken=c17bb360f7843f45, processorArchitecture=MSIL">
-      <HintPath>..\packages\NewPlatform.Flexberry.ORM.5.1.0\lib\net45\ICSSoft.STORMNET.Business.dll</HintPath>
-    </Reference>
-    <Reference Include="ICSSoft.STORMNET.Business.DRDataService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cef244157a7f77f7, processorArchitecture=MSIL">
-      <HintPath>..\packages\NewPlatform.Flexberry.ORM.5.1.0\lib\net45\ICSSoft.STORMNET.Business.DRDataService.dll</HintPath>
-    </Reference>
-    <Reference Include="ICSSoft.STORMNET.Business.LINQProvider, Version=1.0.0.0, Culture=neutral, PublicKeyToken=68e48bb6f6293778, processorArchitecture=MSIL">
-      <HintPath>..\packages\NewPlatform.Flexberry.ORM.5.1.0\lib\net45\ICSSoft.STORMNET.Business.LINQProvider.dll</HintPath>
-    </Reference>
-    <Reference Include="ICSSoft.STORMNET.Business.LockService, Version=1.0.0.1, Culture=neutral, PublicKeyToken=68ac0e47b5ef94d8, processorArchitecture=MSIL">
-      <HintPath>..\packages\NewPlatform.Flexberry.ORM.5.1.0\lib\net45\ICSSoft.STORMNET.Business.LockService.dll</HintPath>
-    </Reference>
-    <Reference Include="ICSSoft.STORMNET.Business.MSSQLDataService, Version=1.0.0.1, Culture=neutral, PublicKeyToken=49b42003269a4a66, processorArchitecture=MSIL">
-      <HintPath>..\packages\NewPlatform.Flexberry.ORM.5.1.0\lib\net45\ICSSoft.STORMNET.Business.MSSQLDataService.dll</HintPath>
-    </Reference>
-    <Reference Include="ICSSoft.STORMNET.Business.ODBCDataService, Version=1.0.0.1, Culture=neutral, PublicKeyToken=4c6916a347bdf8b1, processorArchitecture=MSIL">
-      <HintPath>..\packages\NewPlatform.Flexberry.ORM.5.1.0\lib\net45\ICSSoft.STORMNET.Business.ODBCDataService.dll</HintPath>
-    </Reference>
-    <Reference Include="ICSSoft.STORMNET.Business.OracleDataService, Version=1.0.0.1, Culture=neutral, PublicKeyToken=b24b342e1d86de22, processorArchitecture=MSIL">
-      <HintPath>..\packages\NewPlatform.Flexberry.ORM.5.1.0\lib\net45\ICSSoft.STORMNET.Business.OracleDataService.dll</HintPath>
-    </Reference>
-    <Reference Include="ICSSoft.STORMNET.Business.PostgresDataService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=c1da4b21bda90afe, processorArchitecture=MSIL">
-      <HintPath>..\packages\NewPlatform.Flexberry.ORM.5.1.0\lib\net45\ICSSoft.STORMNET.Business.PostgresDataService.dll</HintPath>
-    </Reference>
-    <Reference Include="ICSSoft.STORMNET.Collections, Version=1.0.0.1, Culture=neutral, PublicKeyToken=898f36b7a907d804, processorArchitecture=MSIL">
-      <HintPath>..\packages\NewPlatform.Flexberry.ORM.5.1.0\lib\net45\ICSSoft.STORMNET.Collections.dll</HintPath>
-    </Reference>
-    <Reference Include="ICSSoft.STORMNET.DataObject, Version=1.0.0.1, Culture=neutral, PublicKeyToken=023a90c13b0ca8dc, processorArchitecture=MSIL">
-      <HintPath>..\packages\NewPlatform.Flexberry.ORM.5.1.0\lib\net45\ICSSoft.STORMNET.DataObject.dll</HintPath>
-    </Reference>
-    <Reference Include="ICSSoft.STORMNET.FunctionalLanguage, Version=1.0.0.1, Culture=neutral, PublicKeyToken=88efc6f76e5cd161, processorArchitecture=MSIL">
-      <HintPath>..\packages\NewPlatform.Flexberry.ORM.5.1.0\lib\net45\ICSSoft.STORMNET.FunctionalLanguage.dll</HintPath>
-    </Reference>
-    <Reference Include="ICSSoft.STORMNET.Tools, Version=1.0.0.1, Culture=neutral, PublicKeyToken=c824f5305b237be9, processorArchitecture=MSIL">
-      <HintPath>..\packages\NewPlatform.Flexberry.ORM.5.1.0\lib\net45\ICSSoft.STORMNET.Tools.dll</HintPath>
-    </Reference>
-    <Reference Include="ICSSoft.STORMNET.UserDataTypes, Version=1.0.0.1, Culture=neutral, PublicKeyToken=bc478021255def29, processorArchitecture=MSIL">
-      <HintPath>..\packages\NewPlatform.Flexberry.ORM.5.1.0\lib\net45\ICSSoft.STORMNET.UserDataTypes.dll</HintPath>
-    </Reference>
-    <Reference Include="IIS.Caseberry.Logging.BusinessServers, Version=1.0.0.1, Culture=neutral, PublicKeyToken=2064285e6f5eb4a5, processorArchitecture=MSIL">
-      <HintPath>..\packages\NewPlatform.Flexberry.LogService.Objects.3.0.0\lib\net45\IIS.Caseberry.Logging.BusinessServers.dll</HintPath>
-    </Reference>
-    <Reference Include="IIS.Caseberry.Logging.Objects, Version=1.0.0.1, Culture=neutral, PublicKeyToken=e89274d6fcfab3e9, processorArchitecture=MSIL">
-      <HintPath>..\packages\NewPlatform.Flexberry.LogService.Objects.3.0.0\lib\net45\IIS.Caseberry.Logging.Objects.dll</HintPath>
-    </Reference>
-    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
-    </Reference>
-    <Reference Include="LogService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=1237387dc1b896f5, processorArchitecture=MSIL">
-      <HintPath>..\packages\NewPlatform.Flexberry.LogService.1.2.0\lib\net45\LogService.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
-    </Reference>
-    <Reference Include="NewPlatform.Flexberry.AspNet.WebApi.Cors, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0f8c89234b8d217b, processorArchitecture=MSIL">
-      <HintPath>..\packages\NewPlatform.Flexberry.AspNet.WebApi.Cors.1.1.1\lib\net45\NewPlatform.Flexberry.AspNet.WebApi.Cors.dll</HintPath>
-    </Reference>
-    <Reference Include="NewPlatform.Flexberry.GIS.Objects, Version=1.0.0.1, Culture=neutral, PublicKeyToken=74926f33eba8d042, processorArchitecture=MSIL">
-      <HintPath>..\packages\NewPlatform.Flexberry.GIS.Objects.0.3.0-beta06\lib\net45\NewPlatform.Flexberry.GIS.Objects.dll</HintPath>
-    </Reference>
-    <Reference Include="NewPlatform.Flexberry.LockService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=90cf813b4f0caf3c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NewPlatform.Flexberry.LockService.2.0.0\lib\net45\NewPlatform.Flexberry.LockService.dll</HintPath>
-    </Reference>
-    <Reference Include="NewPlatform.Flexberry.ORM.GisMSSQLDataService, Version=1.0.0.1, Culture=neutral, PublicKeyToken=c6a0c26547452df4, processorArchitecture=MSIL">
-      <HintPath>..\packages\NewPlatform.Flexberry.ORM.GisMSSQLDataService.1.0.0\lib\net45\NewPlatform.Flexberry.ORM.GisMSSQLDataService.dll</HintPath>
-    </Reference>
-    <Reference Include="NewPlatform.Flexberry.ORM.GisPostgresDataService, Version=1.0.0.1, Culture=neutral, PublicKeyToken=c6a0c26547452df4, processorArchitecture=MSIL">
-      <HintPath>..\packages\NewPlatform.Flexberry.ORM.GisPostgresDataService.1.0.0\lib\net45\NewPlatform.Flexberry.ORM.GisPostgresDataService.dll</HintPath>
-    </Reference>
-    <Reference Include="NewPlatform.Flexberry.ORM.ODataService, Version=1.0.0.0, Culture=neutral, PublicKeyToken=11027c24ff789609, processorArchitecture=MSIL">
-      <HintPath>..\packages\NewPlatform.Flexberry.ORM.ODataService.5.1.1\lib\net45\NewPlatform.Flexberry.ORM.ODataService.dll</HintPath>
-    </Reference>
-    <Reference Include="NewPlatform.Flexberry.ORM.ODataService.Cors, Version=1.0.0.0, Culture=neutral, PublicKeyToken=095d19444c180903, processorArchitecture=MSIL">
-      <HintPath>..\packages\NewPlatform.Flexberry.ORM.ODataService.5.1.1\lib\net45\NewPlatform.Flexberry.ORM.ODataService.Cors.dll</HintPath>
-    </Reference>
-    <Reference Include="NewPlatform.Flexberry.ORM.ODataService.Files, Version=1.0.0.0, Culture=neutral, PublicKeyToken=e7a475a0b76a0be1, processorArchitecture=MSIL">
-      <HintPath>..\packages\NewPlatform.Flexberry.ORM.ODataService.5.1.1\lib\net45\NewPlatform.Flexberry.ORM.ODataService.Files.dll</HintPath>
-    </Reference>
-    <Reference Include="NewPlatform.Flexberry.ORM.ODataService.WebApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0072c11a15a0a8d0, processorArchitecture=MSIL">
-      <HintPath>..\packages\NewPlatform.Flexberry.ORM.ODataService.5.1.1\lib\net45\NewPlatform.Flexberry.ORM.ODataService.WebApi.dll</HintPath>
-    </Reference>
-    <Reference Include="Npgsql, Version=3.2.6.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
-      <HintPath>..\packages\Npgsql.3.2.6\lib\net45\Npgsql.dll</HintPath>
-    </Reference>
-    <Reference Include="Remotion.Linq, Version=1.15.2.0, Culture=neutral, PublicKeyToken=fee00910d6e5f53b, processorArchitecture=MSIL">
-      <HintPath>..\packages\Remotion.Linq.1.15.2.0\lib\net45\Remotion.Linq.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Threading.Tasks.Extensions, Version=4.1.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.3.0\lib\portable-net45+win8+wp8+wpa81\System.Threading.Tasks.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Cors">
-      <HintPath>..\packages\Microsoft.AspNet.Cors.5.2.3\lib\net45\System.Web.Cors.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net.Http.Formatting">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Http">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Spatial">
-      <HintPath>..\packages\Microsoft.Spatial.6.15.0\lib\portable-net45+win+wpa81\Microsoft.Spatial.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.OData.Edm">
-      <HintPath>..\packages\Microsoft.OData.Edm.6.15.0\lib\portable-net45+win+wpa81\Microsoft.OData.Edm.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.OData.Core">
-      <HintPath>..\packages\Microsoft.OData.Core.6.15.0\lib\portable-net45+win+wpa81\Microsoft.OData.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.OData">
-      <HintPath>..\packages\Microsoft.AspNet.OData.5.7.0\lib\net45\System.Web.OData.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Http.Cors">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Cors.5.2.3\lib\net45\System.Web.Http.Cors.dll</HintPath>
-    </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
-    </Reference>
-    <Reference Include="Oracle.ManagedDataAccess">
-      <HintPath>..\packages\Oracle.ManagedDataAccess.12.1.022\lib\net40\Oracle.ManagedDataAccess.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Http.WebHost">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
-    </Reference>
-    <Reference Include="System">
-      <HintPath>System</HintPath>
-    </Reference>
-    <Reference Include="System.Data">
-      <HintPath>System.Data</HintPath>
-    </Reference>
-    <Reference Include="System.Core">
-      <HintPath>System.Core</HintPath>
-    </Reference>
-    <Reference Include="System.Web">
-      <HintPath>System.Web</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Extensions">
-      <HintPath>System.Web.Extensions</HintPath>
-    </Reference>
-    <Reference Include="System.Net.Http">
-      <HintPath>System.Net.Http</HintPath>
-    </Reference>
-    <Reference Include="System.Xml.Linq">
-      <HintPath>System.Xml.Linq</HintPath>
-    </Reference>
-    <Reference Include="System.Drawing">
-      <HintPath>System.Drawing</HintPath>
-    </Reference>
-    <Reference Include="System.Xml">
-      <HintPath>System.Xml</HintPath>
-    </Reference>
-    <Reference Include="System.Configuration">
-      <HintPath>System.Configuration</HintPath>
-    </Reference>
-    <Reference Include="System.EnterpriseServices">
-      <HintPath>System.EnterpriseServices</HintPath>
-    </Reference>
-    <ProjectReference Include="..\Objects\FlexberryGisTestStand.Objects.csproj">
-      <Project>{ec6a8f59-4ef4-4abd-89af-69afe645be99}</Project>
-      <Name>FlexberryGisTestStand.Objects</Name>
-    </ProjectReference>
-    <Reference Include="Unity.Abstractions, Version=3.3.0.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.Abstractions.3.3.0\lib\net45\Unity.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.AspNet.WebApi, Version=5.0.13.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.AspNet.WebApi.5.0.13\lib\net45\Unity.AspNet.WebApi.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Configuration, Version=5.2.2.0, Culture=neutral, PublicKeyToken=6d32ff45e0ccc69f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.Configuration.5.2.2\lib\net45\Unity.Configuration.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Container, Version=5.8.6.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\Unity.Container.5.8.6\lib\net45\Unity.Container.dll</HintPath>
-    </Reference>
-    <Reference Include="UserSettingsService, Version=1.1.0.0, Culture=neutral, PublicKeyToken=2169f05da5d7fddc, processorArchitecture=MSIL">
-      <HintPath>..\packages\NewPlatform.Flexberry.UserSettingsService.3.1.0\lib\net45\UserSettingsService.dll</HintPath>
-    </Reference>
-    <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
-      <HintPath>..\packages\WebActivatorEx.2.2.0\lib\net40\WebActivatorEx.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="App_Start\UnityConfig.cs" />
-    <Compile Include="App_Start\UnityWebApiActivator.cs" />
-    <Compile Include="controls\FileUploaderHandler.ashx.cs">
-      <DependentUpon>FileUploaderHandler.ashx</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Content Include="controls\FileUploaderHandler.ashx" />
-    <None Include="packages.config" />
-    <Content Include="Global.asax" />
-    <Compile Include="Global.asax.cs">
-      <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
-    <Compile Include="App_Start\ODataConfig.cs" />
-    <Content Include="Web.config" />
-    <Content Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
-    <Content Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
-    <None Include="Properties\PublishProfiles\Internet.pubxml" />
-    <None Include="Properties\PublishProfiles\LocalIntranet.pubxml" />
-    <Content Include="Web.Docker.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web.Docker.Debug.config">
-      <DependentUpon>Web.Docker.config</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Web.Docker.Release.config">
-      <DependentUpon>Web.Docker.config</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="shared\template.xls" />
-    <None Include="Web.Cloud.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </None>
-  </ItemGroup>
-  <PropertyGroup>
-    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
-    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Cloud|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\Flexberry.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
-  <ProjectExtensions>
-    <VisualStudio>
-      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
-        <WebProjectProperties>
-          <UseIIS>False</UseIIS>
-          <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>6500</DevelopmentServerPort>
-          <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>
-          </IISUrl>
-          <NTLMAuthentication>False</NTLMAuthentication>
-          <UseCustomServer>False</UseCustomServer>
-          <CustomServerUrl>
-          </CustomServerUrl>
-          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
-        </WebProjectProperties>
-      </FlavorProperties>
-    </VisualStudio>
-  </ProjectExtensions>
+  <PropertyGroup>
+    <RootNamespace>IIS.FlexberryGisTestStand</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Objects\FlexberryGisTestStand.Objects.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="AspNetCore.HealthChecks.NpgSql" Version="6.0.2" />
+    <PackageReference Include="Microsoft.AspNet.WebApi" Version="5.2.9" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.5" />
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="7.0.5" />
+    <PackageReference Include="Microsoft.OData.Core" Version="7.15.0" />
+    <PackageReference Include="NewPlatform.Flexberry.GIS.Objects" Version="0.4.0" />
+    <PackageReference Include="NewPlatform.Flexberry.LockService" Version="3.0.0" />
+    <PackageReference Include="NewPlatform.Flexberry.LogService.Objects" Version="4.0.0" />
+    <PackageReference Include="NewPlatform.Flexberry.ORM.GisMSSQLDataService" Version="2.0.0" />
+    <PackageReference Include="NewPlatform.Flexberry.ORM.GisPostgresDataService" Version="2.0.0" />
+    <PackageReference Include="NewPlatform.Flexberry.ORM.PostgresDataService" Version="7.1.0" />
+    <PackageReference Include="NewPlatform.Flexberry.ORM.ODataService" Version="7.1.0" />
+    <PackageReference Include="NewPlatform.Flexberry.UserSettingsService" Version="4.0.0" />
+    <PackageReference Include="Unity.Microsoft.DependencyInjection" Version="5.11.5" />
+  </ItemGroup>
 </Project>
