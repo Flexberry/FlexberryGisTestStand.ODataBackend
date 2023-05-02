@@ -1,7 +1,6 @@
 ﻿namespace IIS.FlexberryGisTestStand
 {
     using System;
-    using System.Reflection;
     using ICSSoft.Services;
     using ICSSoft.STORMNET;
     using ICSSoft.STORMNET.Business;
@@ -100,11 +99,11 @@
             {
                 builder.MapFileRoute();
 
-                // Create EDM model builder
+                // Create EDM model builder.
                 var assemblies = new[]
                 {
-                    Assembly.Load("FlexberryGisTestStand.Objects"),
-                    Assembly.Load("NewPlatform.Flexberry.GIS.Objects"),
+                    typeof(Address).Assembly,
+                    typeof(NewPlatform.Flexberry.GIS.MapObjectSetting).Assembly,
                     typeof(ApplicationLog).Assembly,
                     typeof(UserSetting).Assembly,
                     typeof(Lock).Assembly,
@@ -112,11 +111,8 @@
 
                 var modelBuilder = new DefaultDataObjectEdmModelBuilder(assemblies, true);
 
-                // Map OData Service
+                // Map OData Service.
                 var token = builder.MapDataObjectRoute(modelBuilder);
-
-                // Register OData event handlers.
-                token.Events.CallbackAfterCreate = CallbackAfterCreate;
             });
         }
 
@@ -183,11 +179,6 @@
             container.RegisterSingleton<ISecurityManager, EmptySecurityManager>();
             container.RegisterSingleton<IDataService, PostgresDataService>(
                 Inject.Property(nameof(PostgresDataService.CustomizationString), connStr));
-        }
-
-        private static void CallbackAfterCreate(DataObject dataObject)
-        {
-            // TODO: implement handler
         }
     }
 }
