@@ -2,8 +2,7 @@
 
 OData backed for flexberry-gis-test-stand-ember-frontend
 
-[master: ![Build Status](https://travis-ci.org/Flexberry/FlexberryGisTestStand.ODataBackend.svg?branch=master)](https://travis-ci.org/Flexberry/FlexberryGisTestStand.ODataBackend)
-[develop: ![Build Status](https://travis-ci.org/Flexberry/FlexberryGisTestStand.ODataBackend.svg?branch=develop)](https://travis-ci.org/Flexberry/FlexberryGisTestStand.ODataBackend)
+[![SonarCloud](https://github.com/Flexberry/FlexberryGisTestStand.ODataBackend/actions/workflows/build.yml/badge.svg)](https://github.com/Flexberry/FlexberryGisTestStand.ODataBackend/actions/workflows/build.yml)
 
 ## Test site
 
