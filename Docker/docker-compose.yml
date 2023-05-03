@@ -1,13 +1,15 @@
 version: "3.2"
 services:
   GisTestStandPostgres:
-    image: "flexberry/gis-test-stand-postgres-db:1.1"
+    image: "flexberry/gis-test-stand-postgres-db"
+    ports:
+     - 15435:5432
   GisTestStand:
-    image: "flexberry/gis-test-stand-odata:1.1"
+    image: "flexberry/gis-test-stand-odata"
     ports:
      - 1818:80
   GisTestStandGeoserver:
-    image: "flexberry/gis-test-stand-geoserver:1.1"
+    image: "flexberry/gis-test-stand-geoserver"
     ports:
       - 1819:8080
     environment:

@@ -7,7 +7,7 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "BackendRoot": "http://localhost",
-        "DefConnStr": "SERVER=localhost;User ID=flexberryuser;Password=jhv;Port=5432;database=appdb;"
+        "DefConnStr": "SERVER=GisTestStandPostgres;User ID=standuser;Password=jhv;Port=5432;database=stand;"
       }
     }
   }
