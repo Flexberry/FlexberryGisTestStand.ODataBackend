@@ -83,11 +83,7 @@
 
             app.UseRouting();
 
-            bool addCors = Convert.ToBoolean(Configuration["addCors"]);
-            if (addCors)
-            {
-                app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
-            }
+            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
             app.UseEndpoints(endpoints =>
             {

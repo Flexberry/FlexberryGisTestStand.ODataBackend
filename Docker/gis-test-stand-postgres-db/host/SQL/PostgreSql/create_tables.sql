@@ -172,6 +172,14 @@ CREATE TABLE Map (
 
  primaryKey UUID NOT NULL,
 
+ CreateTime TIMESTAMP(3) NULL,
+
+ Creator VARCHAR(255) NULL,
+
+ EditTime TIMESTAMP(3) NULL,
+
+ Editor VARCHAR(255) NULL,
+
  Name VARCHAR(255) NOT NULL,
 
  Description TEXT NULL,
@@ -192,14 +200,12 @@ CREATE TABLE Map (
 
  BoundingBox GEOGRAPHY NULL,
 
- CreateTime TIMESTAMP(3) NULL,
+ Owner VARCHAR(255) NULL,
 
- Creator VARCHAR(255) NULL,
+ Picture VARCHAR(255) NULL,
 
- EditTime TIMESTAMP(3) NULL,
-
- Editor VARCHAR(255) NULL,
-
+ EditTimeMapLayers TIMESTAMP(3) NULL,
+ 
  PRIMARY KEY (primaryKey));
 
 
@@ -427,6 +433,27 @@ CREATE TABLE ApplicationLog (
  Message VARCHAR(2500) NULL,
 
  FormattedMessage TEXT NULL,
+
+ PRIMARY KEY (primaryKey));
+
+
+CREATE TABLE FavoriteFeatures (
+
+ primaryKey UUID NOT NULL,
+
+ CreateTime TIMESTAMP(3) NULL,
+
+ Creator VARCHAR(255) NULL,
+
+ EditTime TIMESTAMP(3) NULL,
+
+ Editor VARCHAR(255) NULL,
+
+ ObjectKey VARCHAR(50) NOT NULL,
+
+ ObjectLayerKey VARCHAR(50) NOT NULL,
+
+ UserKey VARCHAR(50) NOT NULL,
 
  PRIMARY KEY (primaryKey));
 
