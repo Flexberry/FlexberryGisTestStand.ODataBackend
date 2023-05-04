@@ -19,6 +19,47 @@ CREATE TABLE LayerMetadata (
 
  BoundingBox GEOGRAPHY NULL,
 
+ AdditionalData TEXT NULL,
+
+ CreateTime TIMESTAMP(3) NULL,
+
+ Creator VARCHAR(255) NULL,
+
+ EditTime TIMESTAMP(3) NULL,
+
+ Editor VARCHAR(255) NULL,
+
+ PRIMARY KEY (primaryKey));
+
+
+CREATE TABLE BackgroundLayer (
+
+ primaryKey UUID NOT NULL,
+
+ Name VARCHAR(255) NULL,
+
+ Description TEXT NULL,
+
+ KeyWords TEXT NULL,
+
+ Index INT NULL,
+
+ Visibility BOOLEAN NULL,
+
+ Type VARCHAR(255) NULL,
+
+ Settings TEXT NULL,
+
+ Scale INT NULL,
+
+ CoordinateReferenceSystem VARCHAR(255) NULL,
+
+ BoundingBox GEOGRAPHY NULL,
+
+ Public BOOLEAN NULL,
+
+ Owner VARCHAR(255) NULL,
+
  CreateTime TIMESTAMP(3) NULL,
 
  Creator VARCHAR(255) NULL,
@@ -90,6 +131,12 @@ CREATE TABLE MapLayer (
 
  BoundingBox GEOGRAPHY NULL,
 
+ Public BOOLEAN NULL,
+
+ Owner VARCHAR(255) NULL,
+
+ SecurityKey VARCHAR(255) NULL,
+
  CreateTime TIMESTAMP(3) NULL,
 
  Creator VARCHAR(255) NULL,
@@ -132,6 +179,27 @@ CREATE TABLE ParameterMetadata (
  PRIMARY KEY (primaryKey));
 
 
+CREATE TABLE FavoriteFeature (
+
+ primaryKey UUID NOT NULL,
+
+ CreateTime TIMESTAMP(3) NULL,
+
+ Creator VARCHAR(255) NULL,
+
+ EditTime TIMESTAMP(3) NULL,
+
+ Editor VARCHAR(255) NULL,
+
+ ObjectKey VARCHAR(50) NOT NULL,
+
+ ObjectLayerKey VARCHAR(50) NOT NULL,
+
+ UserKey VARCHAR(50) NOT NULL,
+
+ PRIMARY KEY (primaryKey));
+
+
 CREATE TABLE CswConnection (
 
  primaryKey UUID NOT NULL,
@@ -162,6 +230,8 @@ CREATE TABLE MapObjectSetting (
  EditForm VARCHAR(255) NULL,
 
  Title VARCHAR(255) NULL,
+
+ MultEditForm VARCHAR(255) NULL,
 
  DefaultMap UUID NULL,
 
@@ -205,7 +275,9 @@ CREATE TABLE Map (
  Picture VARCHAR(255) NULL,
 
  EditTimeMapLayers TIMESTAMP(3) NULL,
- 
+
+ Settings VARCHAR(255) NULL,
+
  PRIMARY KEY (primaryKey));
 
 
@@ -364,7 +436,6 @@ CREATE TABLE STORMFILTERLOOKUP (
 
  PRIMARY KEY (primaryKey));
 
-
 CREATE TABLE UserSetting (
 
  primaryKey UUID NOT NULL,
@@ -437,28 +508,8 @@ CREATE TABLE ApplicationLog (
  PRIMARY KEY (primaryKey));
 
 
-CREATE TABLE FavoriteFeature (
-
- primaryKey UUID NOT NULL,
-
- CreateTime TIMESTAMP(3) NULL,
-
- Creator VARCHAR(255) NULL,
-
- EditTime TIMESTAMP(3) NULL,
-
- Editor VARCHAR(255) NULL,
-
- ObjectKey VARCHAR(50) NOT NULL,
-
- ObjectLayerKey VARCHAR(50) NOT NULL,
-
- UserKey VARCHAR(50) NOT NULL,
-
- PRIMARY KEY (primaryKey));
-
-
-
+CREATE INDEX Index139a6ed635f6c89b639639650a90caa29bdaad14 on LayerMetadata USING gist (BoundingBox); 
+CREATE INDEX Index5c3f86a833db9a84896a16abbdd23439a5e5afa7 on BackgroundLayer USING gist (BoundingBox); 
 
  ALTER TABLE DataLink ADD CONSTRAINT FK78a0f0d4fe7449c6adb2e65ca156b7e1 FOREIGN KEY (MapObjectSetting) REFERENCES MapObjectSetting;
 CREATE INDEX Index08f2f1e169f94994bdd8b9a479f5f16f on DataLink (MapObjectSetting);
@@ -466,8 +517,9 @@ CREATE INDEX Index08f2f1e169f94994bdd8b9a479f5f16f on DataLink (MapObjectSetting
  ALTER TABLE LinkMetadata ADD CONSTRAINT FKc5253ab9a07049f8847a7148cf861f6e FOREIGN KEY (MapObjectSetting) REFERENCES MapObjectSetting;
 CREATE INDEX Index5ebe6e2ccb344b26afb890cbc810aa28 on LinkMetadata (MapObjectSetting);
 
- ALTER TABLE LinkMetadata ADD CONSTRAINT FKfb4d4ed6456645daa9ad85eea8e56a12 FOREIGN KEY (Layer) REFERENCES LayerMetadata;
-CREATE INDEX Indexaf0408eff47b4fe78a5c06d118ffddd5 on LinkMetadata (Layer);
+ ALTER TABLE LinkMetadata ADD CONSTRAINT FKfb4d4ed6456645daa9ad85eea8e56a12 FOREIGN KEY (Layer) REFERENCES LayerMetadata; 
+CREATE INDEX Indexaf0408eff47b4fe78a5c06d118ffddd5 on LinkMetadata (Layer); 
+CREATE INDEX Index1f984bd4d9129a92248628bcf907f9fa0be3efa1 on MapLayer USING gist (BoundingBox); 
 
  ALTER TABLE MapLayer ADD CONSTRAINT FK17993b4009364c898608d94460c7fc7a FOREIGN KEY (Parent) REFERENCES MapLayer;
 CREATE INDEX Index40b7df4e3c1e4fcc827493c80321ba3c on MapLayer (Parent);
@@ -478,8 +530,9 @@ CREATE INDEX Index28f4a6dce95b41618a9b951421600586 on MapLayer (Map);
  ALTER TABLE ParameterMetadata ADD CONSTRAINT FK52106e23d1064fceab8ccb992b12b2a2 FOREIGN KEY (LayerLink) REFERENCES LinkMetadata;
 CREATE INDEX Index4531ceb758074fa9a14b19e67f4e4c61 on ParameterMetadata (LayerLink);
 
- ALTER TABLE MapObjectSetting ADD CONSTRAINT FKebe14930b39d4dfe80926b825914dfb9 FOREIGN KEY (DefaultMap) REFERENCES Map;
-CREATE INDEX Index08108c7be0de4e92b9c4cd1217a58b62 on MapObjectSetting (DefaultMap);
+ ALTER TABLE MapObjectSetting ADD CONSTRAINT FKebe14930b39d4dfe80926b825914dfb9 FOREIGN KEY (DefaultMap) REFERENCES Map; 
+CREATE INDEX Index08108c7be0de4e92b9c4cd1217a58b62 on MapObjectSetting (DefaultMap); 
+CREATE INDEX Indexbe8efd4f01d789420e4e1d1a11d9c0f9ec49dd3a on Map USING gist (BoundingBox); 
 
  ALTER TABLE LinkParameter ADD CONSTRAINT FK2ce9557466cc45acbda5a726f977d96e FOREIGN KEY (LayerLink) REFERENCES LayerLink;
 CREATE INDEX Index960c52583a5b4c1fbae30539cf6fd74c on LinkParameter (LayerLink);
