@@ -17,6 +17,7 @@
     using NewPlatform.Flexberry.ORM.ODataService.WebApi.Extensions;
     using NewPlatform.Flexberry.ORM.ODataServiceCore.Common.Exceptions;
     using NewPlatform.Flexberry.Services;
+    using Npgsql;
     using Unity;
 
     /// <summary>
@@ -48,6 +49,8 @@
         public void ConfigureServices(IServiceCollection services)
         {
             string connStr = Configuration["DefConnStr"];
+
+            NpgsqlConnection.GlobalTypeMapper.UseNetTopologySuite();
 
             services.AddMvcCore(
                     options =>

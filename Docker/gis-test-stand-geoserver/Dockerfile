@@ -1,9 +1,11 @@
-FROM tomcat
+FROM tomcat:9.0-jre8
 
 COPY ./host /tmp/
 
 RUN \
-  wget http://downloads.sourceforge.net/project/geoserver/GeoServer/2.15.1/geoserver-2.15.1-war.zip -O /tmp/geoserver.zip && \
+  apt-get update && \
+  apt-get install unzip && \
+  wget http://downloads.sourceforge.net/project/geoserver/GeoServer/2.22.1/geoserver-2.22.1-war.zip -O /tmp/geoserver.zip && \
   unzip /tmp/geoserver.zip -d /tmp && \
   cd /usr/local/tomcat/webapps && rm -rf * && mkdir geoserver && \
   unzip /tmp/geoserver.war -d ./geoserver/ && \

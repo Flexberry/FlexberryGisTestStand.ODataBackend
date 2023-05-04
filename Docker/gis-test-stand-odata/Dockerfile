@@ -1,29 +1,22 @@
-FROM mono:latest as backend
+FROM mcr.microsoft.com/dotnet/sdk:7.0 as backend
 
 COPY /sources /sources
 
-RUN	 \
-	mono --version ; \
-	msbuild /version ; \
-	cd /sources ; \
-	nuget restore FlexberryGisTestStand.sln ; \
-	msbuild /p:Configuration=Release FlexberryGisTestStand.sln
+WORKDIR /sources
+	
+RUN \
+  dotnet restore FlexberryGisTestStand.sln;\
+  dotnet build FlexberryGisTestStand.sln -c Release;\
+  dotnet publish ODataBackend/FlexberryGisTestStand.ODataBackend.csproj -c Release -o out -f net7.0
 
-FROM flexberry/alt.p8-apache2-mono:latest
+FROM mcr.microsoft.com/dotnet/aspnet:7.0
 
-MAINTAINER mail@flexberry.net
+WORKDIR /app
 
-COPY --from=backend /sources/ODataBackend /var/www/vhosts/gis-test-stand
-COPY vhosts.conf /conf
+COPY --from=backend /sources/out ./
 
-RUN 	rm -f /var/www/vhosts/gis-test-stand/bin/Mono.Security.dll ; \
-	rm -f /var/www/vhosts/gis-test-stand/Global.asax.cs ; \
-	rm -f /var/www/vhosts/gis-test-stand/FlexberryGisTestStand.ODataBackend.csproj ; \
-	rm -f /var/www/vhosts/gis-test-stand/Web.Debug.config ; \
-	rm -f /var/www/vhosts/gis-test-stand/Web.Release.config ; \
-	rm -f /var/www/vhosts/gis-test-stand/packages.config ; \
-	rm -fr /var/www/vhosts/gis-test-stand/App_Start ; \
-	rm -fr /var/www/vhosts/gis-test-stand/Properties ; \
-	rm -fr /var/www/vhosts/gis-test-stand/obj ; \
-	rm /var/www/vhosts/gis-test-stand/Web.config ; \
-	mv /var/www/vhosts/gis-test-stand/Web.Docker.config /var/www/vhosts/gis-test-stand/Web.config
+# Check webapi responses
+HEALTHCHECK --interval=60s --timeout=15s --start-period=20s \
+  CMD curl -f "http://0.0.0.0/health" || exit
+
+ENTRYPOINT ["dotnet", "FlexberryGisTestStand.ODataBackend.dll"]
