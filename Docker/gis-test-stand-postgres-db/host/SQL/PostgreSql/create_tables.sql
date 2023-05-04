@@ -437,7 +437,7 @@ CREATE TABLE ApplicationLog (
  PRIMARY KEY (primaryKey));
 
 
-CREATE TABLE FavoriteFeatures (
+CREATE TABLE FavoriteFeature (
 
  primaryKey UUID NOT NULL,
 
