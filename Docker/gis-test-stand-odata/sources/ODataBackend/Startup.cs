@@ -29,7 +29,7 @@
     /// </summary>
     public class Startup
     {
-        private List<Dictionary<string, string>> backgroundLayers = new List<Dictionary<string, string>>();
+        private List<Dictionary<string, string>> backgroundLayers;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Startup" /> class.
@@ -43,6 +43,8 @@
             {
                 var xml = new XmlDocument();
                 xml.Load(Path.Combine(Directory.GetCurrentDirectory(), "shared\\backgroundLayers.xml"));
+
+                this.backgroundLayers = new List<Dictionary<string, string>>();
 
                 foreach (XmlNode layerNode in xml.DocumentElement.ChildNodes)
                 {
@@ -139,7 +141,7 @@
 
                 // Map OData Service.
                 var token = builder.MapDataObjectRoute(modelBuilder);
-                token.Events.CallbackBeforeCreate = BeforeCreate;
+                token.Events.CallbackBeforeCreate = this.BeforeCreate;
             });
         }
 
@@ -175,7 +177,8 @@
                 map.EditTimeMapLayers = DateTime.Now;
 
                 if (map.MapLayer.Count == 0) // при создании карты сразу со слоем данный метод вызывается несколько раз.
-                    foreach (var layer in backgroundLayers)
+                {
+                    foreach (var layer in this.backgroundLayers)
                     {
                         map.MapLayer.Add(new MapLayer()
                         {
@@ -188,6 +191,7 @@
                             Visibility = layer["visibility"] == "1",
                         });
                     }
+                }
             }
 
             if (obj.GetType() == typeof(MapLayer))
