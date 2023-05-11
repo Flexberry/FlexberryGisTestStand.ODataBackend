@@ -1,6 +1,9 @@
 ﻿namespace IIS.FlexberryGisTestStand
 {
     using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Xml;
     using ICSSoft.Services;
     using ICSSoft.STORMNET;
     using ICSSoft.STORMNET.Business;
@@ -11,6 +14,7 @@
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using NewPlatform.Flexberry.GIS;
     using NewPlatform.Flexberry.ORM.ODataService.Extensions;
     using NewPlatform.Flexberry.ORM.ODataService.Files;
     using NewPlatform.Flexberry.ORM.ODataService.Model;
@@ -25,6 +29,8 @@
     /// </summary>
     public class Startup
     {
+        private static List<Dictionary<string, string>> backgroundLayers;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Startup" /> class.
         /// </summary>
@@ -32,6 +38,28 @@
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
+            try
+            {
+                var xml = new XmlDocument();
+                xml.Load(Path.Combine(Directory.GetCurrentDirectory(), "shared\\backgroundLayers.xml"));
+
+                backgroundLayers = new List<Dictionary<string, string>>();
+                foreach (XmlNode layerNode in xml.DocumentElement.ChildNodes)
+                {
+                    backgroundLayers.Add(new Dictionary<string, string>()
+                    {
+                        { "name", layerNode.Attributes["name"].Value },
+                        { "crs", layerNode.Attributes["crs"].Value },
+                        { "settings", layerNode.InnerText },
+                        { "visibility", layerNode.Attributes["visibility"].Value },
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                LogService.LogError(ex);
+            }
         }
 
         /// <summary>
@@ -112,7 +140,41 @@
 
                 // Map OData Service.
                 var token = builder.MapDataObjectRoute(modelBuilder);
+                token.Events.CallbackBeforeCreate = BeforeCreate;
             });
+        }
+
+        private bool BeforeCreate(DataObject obj)
+        {
+            if (obj.GetType() == typeof(Map))
+            {
+                var map = (Map)obj;
+                map.EditTimeMapLayers = DateTime.Now;
+
+                if (map.MapLayer.Count == 0) // при создании карты сразу со слоем данный метод вызывается несколько раз.
+                    foreach (var layer in backgroundLayers)
+                    {
+                        map.MapLayer.Add(new MapLayer()
+                        {
+                            Name = layer["name"],
+                            Index = 1,
+                            Type = "tile",
+                            Settings = layer["settings"],
+                            CoordinateReferenceSystem = layer["crs"],
+                            Public = true,
+                            Visibility = layer["visibility"] == "1",
+                        });
+                    }
+            }
+
+            if (obj.GetType() == typeof(MapLayer))
+            {
+                var mapLayer = (MapLayer)obj;
+                var map = mapLayer.Map;
+                map.EditTimeMapLayers = DateTime.Now;
+            }
+
+            return true;
         }
 
         /// <summary>

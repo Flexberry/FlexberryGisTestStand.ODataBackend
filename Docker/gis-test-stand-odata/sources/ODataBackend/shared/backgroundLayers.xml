@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Layers>
+  <Layer name="Google.Снимок" crs="{&quot;code&quot;:&quot;EPSG:3857&quot;}" visibility="0">
+    {"url": "http://{s}.google.com/vt/lyrs=s&amp;x={x}&amp;y={y}&amp;z={z}", "subdomains": ["mt0", "mt1", "mt2", "mt3"], "showOnMinimap": true, "backgroundSettings": {"picture": "/map/files/google_cosmos.png", "canBeBackground": true}, "maxNativeZoom": 17}
+  </Layer>
+  <Layer name="OpenTopoMap" crs="{&quot;code&quot;:&quot;EPSG:3857&quot;}" visibility="0">
+    {"url": "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png", "showOnMinimap": true, "backgroundSettings": {"picture": "/map/files/opentopomap.png", "canBeBackground": true}, "maxNativeZoom": 15}
+  </Layer>
+  <Layer name="OSM" crs="{&quot;code&quot;:&quot;EPSG:3857&quot;}" visibility="1">
+    {"url": "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", "maxZoom": 20, "showOnMinimap": true, "backgroundSettings": {"picture": "/map/files/osm.png", "canBeBackground": true}}
+  </Layer>
+  <Layer name="Роскосмос" crs="{&quot;code&quot;:&quot;EPSG:3857&quot;}" visibility="0">
+    {"url": "https://{s}-rgis.permkrai.ru/orthophoto/roskosmosportal/tiles/ru59_gpmss_012018050120201031_12700_EPSG3857/{z}/{x}/{y}.png", "showOnMinimap": true, "backgroundSettings": {"picture": "/map/files/roskosmos2021.png", "canBeBackground": true}, "maxNativeZoom": 14}
+  </Layer>
+</Layers>
