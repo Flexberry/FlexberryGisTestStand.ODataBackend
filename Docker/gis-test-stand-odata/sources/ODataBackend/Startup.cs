@@ -6,6 +6,7 @@
     using ICSSoft.STORMNET.Business;
     using ICSSoft.STORMNET.Security;
     using IIS.Caseberry.Logging.Objects;
+    using IIS.FlexberryGisTestStand.Controls;
     using Microsoft.AspNet.OData.Extensions;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -113,6 +114,13 @@
                 // Map OData Service.
                 var token = builder.MapDataObjectRoute(modelBuilder);
             });
+
+            app.MapWhen(
+                context => context.Request.Path.ToString().EndsWith(".ashx"),
+                appBranch =>
+                {
+                    appBranch.UseFileUploaderHandler();
+                });
         }
 
         /// <summary>
