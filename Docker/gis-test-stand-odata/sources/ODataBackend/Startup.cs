@@ -31,6 +31,11 @@
     {
         private static List<Dictionary<string, string>> backgroundLayers;
 
+        static Startup()
+        {
+            backgroundLayers = new List<Dictionary<string, string>>();
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Startup" /> class.
         /// </summary>
@@ -44,7 +49,6 @@
                 var xml = new XmlDocument();
                 xml.Load(Path.Combine(Directory.GetCurrentDirectory(), "shared\\backgroundLayers.xml"));
 
-                backgroundLayers = new List<Dictionary<string, string>>();
                 foreach (XmlNode layerNode in xml.DocumentElement.ChildNodes)
                 {
                     backgroundLayers.Add(new Dictionary<string, string>()
@@ -144,6 +148,30 @@
             });
         }
 
+        /// <summary>
+        /// Configurate application container.
+        /// </summary>
+        /// <param name="container">Container to configure.</param>
+        public void ConfigureContainer(IUnityContainer container)
+        {
+            if (container == null)
+            {
+                throw new ArgumentNullException(nameof(container));
+            }
+
+            // FYI: сервисы, в т.ч. контроллеры, создаются из дочернего контейнера.
+            while (container.Parent != null)
+            {
+                container = container.Parent;
+            }
+
+            // FYI: сервис данных ходит в контейнер UnityFactory.
+            container.RegisterInstance(Configuration);
+
+            RegisterDataObjectFileAccessor(container);
+            RegisterORM(container);
+        }
+
         private bool BeforeCreate(DataObject obj)
         {
             if (obj.GetType() == typeof(Map))
@@ -175,30 +203,6 @@
             }
 
             return true;
-        }
-
-        /// <summary>
-        /// Configurate application container.
-        /// </summary>
-        /// <param name="container">Container to configure.</param>
-        public void ConfigureContainer(IUnityContainer container)
-        {
-            if (container == null)
-            {
-                throw new ArgumentNullException(nameof(container));
-            }
-
-            // FYI: сервисы, в т.ч. контроллеры, создаются из дочернего контейнера.
-            while (container.Parent != null)
-            {
-                container = container.Parent;
-            }
-
-            // FYI: сервис данных ходит в контейнер UnityFactory.
-            container.RegisterInstance(Configuration);
-
-            RegisterDataObjectFileAccessor(container);
-            RegisterORM(container);
         }
 
         /// <summary>
