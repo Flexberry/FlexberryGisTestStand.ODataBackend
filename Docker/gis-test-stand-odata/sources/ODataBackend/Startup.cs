@@ -29,12 +29,7 @@
     /// </summary>
     public class Startup
     {
-        private static List<Dictionary<string, string>> backgroundLayers;
-
-        static Startup()
-        {
-            backgroundLayers = new List<Dictionary<string, string>>();
-        }
+        private List<Dictionary<string, string>> backgroundLayers = new List<Dictionary<string, string>>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Startup" /> class.
@@ -51,7 +46,7 @@
 
                 foreach (XmlNode layerNode in xml.DocumentElement.ChildNodes)
                 {
-                    backgroundLayers.Add(new Dictionary<string, string>()
+                    this.backgroundLayers.Add(new Dictionary<string, string>()
                     {
                         { "name", layerNode.Attributes["name"].Value },
                         { "crs", layerNode.Attributes["crs"].Value },
