@@ -29,7 +29,7 @@
     /// </summary>
     public class Startup
     {
-        private List<Dictionary<string, string>> backgroundLayers;
+        private readonly List<Dictionary<string, string>> backgroundLayers;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Startup" /> class.
@@ -176,7 +176,8 @@
                 var map = (Map)obj;
                 map.EditTimeMapLayers = DateTime.Now;
 
-                if (map.MapLayer.Count == 0) // при создании карты сразу со слоем данный метод вызывается несколько раз.
+                // При создании карты сразу со слоем данный метод вызывается несколько раз.
+                if (map.MapLayer.Count == 0)
                 {
                     foreach (var layer in this.backgroundLayers)
                     {
