@@ -6,7 +6,7 @@
     using ICSSoft.STORMNET.Business;
     using ICSSoft.STORMNET.Security;
     using IIS.Caseberry.Logging.Objects;
-    using IIS.FlexberryGisTestStand.Controls;
+    using IIS.FlexberryGisTestStand.Controllers;
     using Microsoft.AspNet.OData.Extensions;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
