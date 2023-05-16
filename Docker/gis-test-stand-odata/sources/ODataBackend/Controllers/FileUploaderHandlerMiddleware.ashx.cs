@@ -26,6 +26,7 @@
         /// </summary>
         /// <param name="next">A delegate that allows passing the request further along the pipeline for processing by other handlers or components.</param>
         /// <param name="env">Information about web hosting environment.</param>
+        /// <param name="configuration">An application configuration properties.</param>
         public FileUploaderHandlerMiddleware(RequestDelegate next, IWebHostEnvironment env, IConfiguration configuration)
         {
             this.next = next;
