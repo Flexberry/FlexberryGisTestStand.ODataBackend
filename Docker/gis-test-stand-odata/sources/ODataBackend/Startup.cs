@@ -115,12 +115,7 @@
                 var token = builder.MapDataObjectRoute(modelBuilder);
             });
 
-            app.MapWhen(
-                context => context.Request.Path.ToString().EndsWith(".ashx"),
-                appBranch =>
-                {
-                    appBranch.UseFileUploaderHandler();
-                });
+            app.UseFileUploaderHandlerMiddleware();
         }
 
         /// <summary>

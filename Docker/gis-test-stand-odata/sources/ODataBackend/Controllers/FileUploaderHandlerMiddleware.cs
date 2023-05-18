@@ -261,14 +261,14 @@
     /// <summary>
     /// Provides extension methods for the <see cref="IApplicationBuilder"/> interface to enable easy registration of the <see cref="FileUploaderHandlerMiddleware"/>.
     /// </summary>
-    public static class FileUploaderHandlerExtensions
+    public static class FileUploaderHandlerMiddlewareExtensions
     {
         /// <summary>
         /// Adds the <see cref="FileUploaderHandlerMiddleware"/> to the request pipeline.
         /// </summary>
         /// <param name="builder">The <see cref="IApplicationBuilder"/> instance.</param>
         /// <returns>The <see cref="IApplicationBuilder"/> instance with the <see cref="FileUploaderHandlerMiddleware"/> added.</returns>
-        public static IApplicationBuilder UseFileUploaderHandler(this IApplicationBuilder builder)
+        public static IApplicationBuilder UseFileUploaderHandlerMiddleware(this IApplicationBuilder builder)
         {
             return builder.UseMiddleware<FileUploaderHandlerMiddleware>();
         }
