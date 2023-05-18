@@ -4,7 +4,7 @@ set search_path=geo,public;
 
 CREATE TABLE water_polygon (
 
- primaryKey serial NOT NULL,
+ primaryKey UUID NOT NULL,
 
  osm_id VARCHAR(255) NULL,
 
@@ -21,7 +21,7 @@ CREATE TABLE water_polygon (
 
 CREATE TABLE water_line (
 
- primaryKey serial NOT NULL,
+ primaryKey UUID NOT NULL,
 
  osm_id VARCHAR(255) NULL,
 

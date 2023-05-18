@@ -191,9 +191,9 @@ CREATE TABLE FavoriteFeature (
 
  Editor VARCHAR(255) NULL,
 
- ObjectKey VARCHAR(50) NOT NULL,
+ ObjectKey UUID NOT NULL,
 
- ObjectLayerKey VARCHAR(50) NOT NULL,
+ ObjectLayerKey UUID NOT NULL,
 
  UserKey VARCHAR(50) NOT NULL,
 
