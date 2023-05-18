@@ -10,7 +10,6 @@
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.Configuration;
-    using OSGeo.OGR;
 
     /// <summary>
     /// Middleware class for converting spatial files to JSON.
@@ -143,9 +142,8 @@
         /// <returns>The name of the file converted to GeoJson.</returns>
         public string XmlToGeoJson(string fileName, string tempFileName)
         {
-            string template = Path.Join(this.env.ContentRootPath, "shared", "template.xsl");
+            string template = Path.Join(this.env.ContentRootPath, "shared", "template.xls");
             string command = $" -o {tempFileName}.json {template} \"{fileName}\"";
-
             string utilityForConvertXmlToJson = this.configuration["UtilityForConvertXmlToJson"];
 
             if (string.IsNullOrEmpty(utilityForConvertXmlToJson))
@@ -213,37 +211,50 @@
         /// <returns>The name of the file converted to GeoJson.</returns>
         public string GeomtoGeoJSON(string fileName, string tempFileName)
         {
-            // Before use the Gdal classes, we need to configure it.
-            GdalConfiguration.ConfigureGdal();
-            GdalConfiguration.ConfigureOgr();
+            string command = $"-f GeoJSON {tempFileName}.json \"{fileName}\" -nlt \"MULTIPOLYGON\"";
+            string utilityForConvertGeometryDataToJson = this.configuration["UtilityForConvertGeometryDataToJson"];
 
-            OSGeo.GDAL.Gdal.AllRegister();
-            Ogr.RegisterAll();
+            if (string.IsNullOrEmpty(utilityForConvertGeometryDataToJson))
+            {
+                LogService.LogError("The utility name is missing.");
+                return string.Empty;
+            }
+            else
+            {
+                var procStarInfo = new ProcessStartInfo("ogr2ogr")
+                {
+                    Arguments = command,
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true,
+                    StandardErrorEncoding = System.Text.Encoding.UTF8,
+                    StandardOutputEncoding = System.Text.Encoding.UTF8,
+                    WorkingDirectory = Path.GetTempPath(),
+                };
+                procStarInfo.EnvironmentVariables.Add("GDAL_FILENAME_IS_UTF8", "Off");
 
-            // To support Russian path, add this code below.
-            OSGeo.GDAL.Gdal.SetConfigOption("GDAL_FILENAME_IS_UTF8", "NO");
+                using (var proc = new Process { StartInfo = procStarInfo })
+                {
+                    proc.Start();
+                    proc.WaitForExit();
 
-            // In order to support Russian in the property table field, add the following sentence.
-            OSGeo.GDAL.Gdal.SetConfigOption("SHAPE_ENCODING", string.Empty);
+                    string result = proc.StandardOutput.ReadToEnd();
+                    if (result.Length > 0)
+                    {
+                        result += Environment.NewLine;
+                    }
 
-            // Open the data source using OGR.
-            DataSource dataSource = Ogr.Open(fileName, 0);
+                    result += proc.StandardError.ReadToEnd();
 
-            // Get the GeoJSON driver.
-            OSGeo.OGR.Driver driver = Ogr.GetDriverByName("GeoJSON");
+                    if (!string.IsNullOrEmpty(result))
+                    {
+                        LogService.LogWarn(result);
+                    }
+                }
+            }
 
-            // Copy the data source to a file and convert it to GeoJSON.
-            DataSource dataSourceJson = driver.CopyDataSource(dataSource, tempFileName + ".json", null);
-
-            // Get the name of the file converted to GeoJSON.
-            string tempFileNameJson = dataSourceJson.name;
-
-            // Freeing up resources.
-            driver.Dispose();
-            dataSource.Dispose();
-            dataSourceJson.Dispose();
-
-            return tempFileNameJson;
+            return tempFileName + ".json";
         }
     }
 
