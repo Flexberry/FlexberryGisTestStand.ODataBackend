@@ -42,7 +42,7 @@
             try
             {
                 var xml = new XmlDocument();
-                xml.Load(Path.Combine(Directory.GetCurrentDirectory(), "shared\\backgroundLayers.xml"));
+                xml.Load(Path.Combine(Directory.GetCurrentDirectory(), "shared/backgroundLayers.xml"));
 
                 this.backgroundLayers = new List<Dictionary<string, string>>();
 
