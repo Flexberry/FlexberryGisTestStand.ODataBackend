@@ -171,6 +171,17 @@
 
         private bool BeforeCreate(DataObject obj)
         {
+            if (obj == null)
+            {
+                return true;
+            }
+
+            if (obj.GetType() == typeof(FavoriteFeature))
+            {
+                var feature = (FavoriteFeature)obj;
+                feature.UserKey = "user";
+            }
+
             if (obj.GetType() == typeof(Map))
             {
                 var map = (Map)obj;

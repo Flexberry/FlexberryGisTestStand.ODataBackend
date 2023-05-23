@@ -18,7 +18,7 @@
     <entry key="Loose bbox">true</entry>
     <entry key="Estimated extends">true</entry>
     <entry key="fetch size">1000</entry>
-    <entry key="Expose primary keys">false</entry>
+    <entry key="Expose primary keys">true</entry>
     <entry key="validate connections">true</entry>
     <entry key="Support on the fly geometry simplification">true</entry>
     <entry key="Connection timeout">20</entry>

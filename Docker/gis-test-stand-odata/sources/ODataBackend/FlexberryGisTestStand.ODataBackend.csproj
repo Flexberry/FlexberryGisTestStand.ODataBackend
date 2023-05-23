@@ -27,7 +27,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.5" />
     <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="7.0.5" />
     <PackageReference Include="Microsoft.OData.Core" Version="7.15.0" />
-    <PackageReference Include="NewPlatform.Flexberry.GIS.Objects" Version="1.0.0-beta09" />
+    <PackageReference Include="NewPlatform.Flexberry.GIS.Objects" Version="1.0.0-beta10" />
     <PackageReference Include="NewPlatform.Flexberry.LockService" Version="3.0.0" />
     <PackageReference Include="NewPlatform.Flexberry.LogService.Objects" Version="4.0.0" />
     <PackageReference Include="NewPlatform.Flexberry.ORM.GisMSSQLDataService" Version="2.0.0" />
