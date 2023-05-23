@@ -80,7 +80,10 @@
         {
             string connStr = Configuration["DefConnStr"];
 
-            NpgsqlConnection.GlobalTypeMapper.UseNetTopologySuite();
+            var dataSourceBuilder = new NpgsqlDataSourceBuilder(connStr);
+            dataSourceBuilder.UseNetTopologySuite();
+            var dataSource = dataSourceBuilder.Build();
+            var connection = dataSource.OpenConnectionAsync();
 
             services.AddMvcCore(
                     options =>
