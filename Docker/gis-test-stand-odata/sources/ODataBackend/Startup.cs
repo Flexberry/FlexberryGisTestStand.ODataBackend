@@ -15,6 +15,7 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using NewPlatform.Flexberry.GIS;
+    using NewPlatform.Flexberry.ORM;
     using NewPlatform.Flexberry.ORM.ODataService.Extensions;
     using NewPlatform.Flexberry.ORM.ODataService.Files;
     using NewPlatform.Flexberry.ORM.ODataService.Model;
@@ -79,7 +80,10 @@
         {
             string connStr = Configuration["DefConnStr"];
 
-            NpgsqlConnection.GlobalTypeMapper.UseNetTopologySuite();
+            var dataSourceBuilder = new NpgsqlDataSourceBuilder(connStr);
+            dataSourceBuilder.UseNetTopologySuite();
+            var dataSource = dataSourceBuilder.Build();
+            dataSource.OpenConnectionAsync();
 
             services.AddMvcCore(
                     options =>
@@ -253,8 +257,9 @@
             }
 
             container.RegisterSingleton<ISecurityManager, EmptySecurityManager>();
-            container.RegisterSingleton<IDataService, PostgresDataService>(
-                Inject.Property(nameof(PostgresDataService.CustomizationString), connStr));
+
+            container.RegisterSingleton<IDataService, GisPostgresDataService>(
+                Inject.Property(nameof(GisPostgresDataService.CustomizationString), connStr));
         }
     }
 }

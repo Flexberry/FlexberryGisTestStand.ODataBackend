@@ -35,7 +35,7 @@
     <PackageReference Include="NewPlatform.Flexberry.ORM.PostgresDataService" Version="7.1.0" />
     <PackageReference Include="NewPlatform.Flexberry.ORM.ODataService" Version="7.1.0" />
     <PackageReference Include="NewPlatform.Flexberry.UserSettingsService" Version="4.0.0" />
-    <PackageReference Include="Npgsql.NetTopologySuite" Version="6.0.0" />
+    <PackageReference Include="Npgsql.NetTopologySuite" Version="7.0.4" />
     <PackageReference Include="Unity.Microsoft.DependencyInjection" Version="5.11.5" />
   </ItemGroup>
 </Project>
