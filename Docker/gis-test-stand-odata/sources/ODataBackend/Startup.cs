@@ -83,7 +83,7 @@
             var dataSourceBuilder = new NpgsqlDataSourceBuilder(connStr);
             dataSourceBuilder.UseNetTopologySuite();
             var dataSource = dataSourceBuilder.Build();
-            var connection = dataSource.OpenConnectionAsync();
+            dataSource.OpenConnectionAsync();
 
             services.AddMvcCore(
                     options =>
