@@ -44,7 +44,7 @@
                 string layersPath = Path.Combine(Directory.GetCurrentDirectory(), "shared", "backgroundLayers.xml");
                 if (!File.Exists(layersPath))
                 {
-                    throw new Exception("Файл backgroundLayers.xml не найден.");
+                    throw new FileNotFoundException("Файл shared/backgroundLayers.xml не найден.");
                 }
 
                 var xml = new XmlDocument();
