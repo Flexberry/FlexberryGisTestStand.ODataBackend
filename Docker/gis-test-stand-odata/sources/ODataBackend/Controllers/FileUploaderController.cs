@@ -21,7 +21,7 @@
     public class FileUploaderController : ControllerBase
     {
         private readonly IWebHostEnvironment env;
-        private IOptions<FileUploaderConfiguration> configuration;
+        private readonly IOptions<FileUploaderConfiguration> configuration;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FileUploaderController"/> class.
@@ -40,7 +40,7 @@
         /// <param name="data">File with geodata.</param>
         /// <returns>Geodata in json format.</returns>
         [HttpPost("convertingSpatialFilesToJson")]
-        public async Task<IActionResult> ConvertingSpatialFilesToJson(IFormFile data)
+        public async Task<IActionResult> ConvertSpatialFilesToJson(IFormFile data)
         {
             try
             {
@@ -58,14 +58,13 @@
                 using (var stream = new FileStream(fileName, FileMode.Create, FileAccess.Write))
                 {
                     await data.CopyToAsync(stream).ConfigureAwait(false);
-                    stream.Close();
                 }
 
                 if (ext == ".zip")
                 {
                     DirectoryInfo directoryInfo = Directory.CreateDirectory(tempFileName.Replace(".tmp", string.Empty, StringComparison.OrdinalIgnoreCase));
 
-                    rigthFile = this.GetGeoFile(fileName, tempFileName, directoryInfo);
+                    rigthFile = this.GetGeoFile(fileName, directoryInfo);
 
                     if (string.IsNullOrEmpty(rigthFile))
                     {
@@ -119,40 +118,40 @@
             {
                 throw new Exception("The path to the utility is missing in the configuration.");
             }
-            else if (!System.IO.File.Exists(utilityForConvertXmlToJson))
+
+            if (!System.IO.File.Exists(utilityForConvertXmlToJson))
             {
-                throw new Exception("The utility file is missing at the specified path.");
+                throw new Exception($"The utility file is missing at the specified path {utilityForConvertXmlToJson}.");
             }
-            else
+
+            var procStartInfo = new ProcessStartInfo(utilityForConvertXmlToJson)
             {
-                var procStartInfo = new ProcessStartInfo(utilityForConvertXmlToJson)
+                Arguments = command,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                StandardErrorEncoding = System.Text.Encoding.UTF8,
+                StandardOutputEncoding = System.Text.Encoding.UTF8,
+                WorkingDirectory = Path.GetTempPath(),
+            };
+
+            using (var proc = new Process { StartInfo = procStartInfo })
+            {
+                proc.Start();
+                proc.WaitForExit();
+
+                string result = proc.StandardOutput.ReadToEnd();
+                if (result.Length > 0)
                 {
-                    Arguments = command,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    UseShellExecute = false,
-                    CreateNoWindow = true,
-                    StandardErrorEncoding = System.Text.Encoding.UTF8,
-                    StandardOutputEncoding = System.Text.Encoding.UTF8,
-                    WorkingDirectory = Path.GetTempPath(),
-                };
-                using (var proc = new Process { StartInfo = procStartInfo })
+                    result += Environment.NewLine;
+                }
+
+                result += proc.StandardError.ReadToEnd();
+
+                if (!string.IsNullOrEmpty(result))
                 {
-                    proc.Start();
-                    proc.WaitForExit();
-
-                    string result = proc.StandardOutput.ReadToEnd();
-                    if (result.Length > 0)
-                    {
-                        result += Environment.NewLine;
-                    }
-
-                    result += proc.StandardError.ReadToEnd();
-
-                    if (!string.IsNullOrEmpty(result))
-                    {
-                        LogService.LogWarn(result);
-                    }
+                    LogService.LogWarn(result);
                 }
             }
 
@@ -185,38 +184,36 @@
             {
                 throw new Exception("The utility name is missing.");
             }
-            else
+
+            var procStarInfo = new ProcessStartInfo("ogr2ogr")
             {
-                var procStarInfo = new ProcessStartInfo("ogr2ogr")
+                Arguments = command,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                StandardErrorEncoding = System.Text.Encoding.UTF8,
+                StandardOutputEncoding = System.Text.Encoding.UTF8,
+                WorkingDirectory = Path.GetTempPath(),
+            };
+            procStarInfo.EnvironmentVariables.Add("GDAL_FILENAME_IS_UTF8", "Off");
+
+            using (var proc = new Process { StartInfo = procStarInfo })
+            {
+                proc.Start();
+                proc.WaitForExit();
+
+                string result = proc.StandardOutput.ReadToEnd();
+                if (result.Length > 0)
                 {
-                    Arguments = command,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    UseShellExecute = false,
-                    CreateNoWindow = true,
-                    StandardErrorEncoding = System.Text.Encoding.UTF8,
-                    StandardOutputEncoding = System.Text.Encoding.UTF8,
-                    WorkingDirectory = Path.GetTempPath(),
-                };
-                procStarInfo.EnvironmentVariables.Add("GDAL_FILENAME_IS_UTF8", "Off");
+                    result += Environment.NewLine;
+                }
 
-                using (var proc = new Process { StartInfo = procStarInfo })
+                result += proc.StandardError.ReadToEnd();
+
+                if (!string.IsNullOrEmpty(result))
                 {
-                    proc.Start();
-                    proc.WaitForExit();
-
-                    string result = proc.StandardOutput.ReadToEnd();
-                    if (result.Length > 0)
-                    {
-                        result += Environment.NewLine;
-                    }
-
-                    result += proc.StandardError.ReadToEnd();
-
-                    if (!string.IsNullOrEmpty(result))
-                    {
-                        LogService.LogWarn(result);
-                    }
+                    LogService.LogWarn(result);
                 }
             }
 
@@ -227,9 +224,9 @@
         /// Get a geofile.
         /// </summary>
         /// <param name="fileName">Input file.</param>
-        /// <param name="tempFileName">Output file.</param>
+        /// <param name="directoryInfo">Output temp directory.</param>
         /// <returns>The name of the geofile.</returns>
-        private string GetGeoFile(string fileName, string tempFileName, DirectoryInfo directoryInfo)
+        private string GetGeoFile(string fileName, DirectoryInfo directoryInfo)
         {
             string rigthFile = string.Empty;
             this.FastZipUnpack(fileName, directoryInfo.FullName);
