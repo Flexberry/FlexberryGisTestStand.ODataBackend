@@ -12,8 +12,7 @@ RUN \
 FROM mcr.microsoft.com/dotnet/aspnet:7.0
 
 RUN apt-get update && \
-    apt-get install -y gdal-bin jq && \
-    apt-get install -y xsltproc &&\
+    apt-get install -y gdal-bin jq xsltproc && \
     rm -rf /var/lib/apt/lists/* /tmp/*
 
 WORKDIR /app
