@@ -9,6 +9,7 @@
     using ICSSoft.STORMNET.Business;
     using ICSSoft.STORMNET.Security;
     using IIS.Caseberry.Logging.Objects;
+    using IIS.FlexberryGisTestStand.Configuration;
     using Microsoft.AspNet.OData.Extensions;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -106,6 +107,8 @@
             services
                 .AddHealthChecks()
                 .AddNpgSql(connStr);
+
+            services.Configure<FileUploaderConfiguration>(Configuration.GetSection(FileUploaderConfiguration.SectionName));
         }
 
         /// <summary>
@@ -122,7 +125,6 @@
 
             app.UseDefaultFiles();
             app.UseStaticFiles();
-
             app.UseRouting();
 
             app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
