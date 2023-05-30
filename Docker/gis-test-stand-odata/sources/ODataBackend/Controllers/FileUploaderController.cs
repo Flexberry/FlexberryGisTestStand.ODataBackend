@@ -64,36 +64,17 @@
                 if (ext == ".zip")
                 {
                     DirectoryInfo directoryInfo = Directory.CreateDirectory(tempFileName.Replace(".tmp", string.Empty, StringComparison.OrdinalIgnoreCase));
-                    this.FastZipUnpack(fileName, directoryInfo.FullName);
 
-                    string[] shapeExtensionFiles = Directory.GetFiles(directoryInfo.FullName, "*.shp");
-                    string[] tabExtensionFiles = Directory.GetFiles(directoryInfo.FullName, "*.tab");
-                    string[] mifExtensionFiles = Directory.GetFiles(directoryInfo.FullName, "*.mif");
+                    rigthFile = this.GetGeoFile(fileName, tempFileName, directoryInfo);
 
-                    if (shapeExtensionFiles.Length != 0)
-                    {
-                        rigthFile = shapeExtensionFiles.First();
-                    }
-                    else if (tabExtensionFiles.Length != 0)
-                    {
-                        rigthFile = tabExtensionFiles.First();
-                    }
-                    else if (mifExtensionFiles.Length != 0)
-                    {
-                        rigthFile = mifExtensionFiles.First();
-                    }
-
-                    if (!string.IsNullOrEmpty(rigthFile))
-                    {
-                        fileNameGeoJson = this.GeomToGeoJSON(rigthFile, tempFileName);
-                    }
-                    else
+                    if (string.IsNullOrEmpty(rigthFile))
                     {
                         directoryInfo.Delete(true);
                         System.IO.File.Delete(fileName);
                         throw new Exception("There are no geometry files in the zip archive.");
                     }
 
+                    fileNameGeoJson = this.GeomToGeoJSON(rigthFile, tempFileName);
                     directoryInfo.Delete(true);
                     System.IO.File.Delete(fileName);
                 }
@@ -240,6 +221,37 @@
             }
 
             return tempFileName + ".json";
+        }
+
+        /// <summary>
+        /// Get a geofile.
+        /// </summary>
+        /// <param name="fileName">Input file.</param>
+        /// <param name="tempFileName">Output file.</param>
+        /// <returns>The name of the geofile.</returns>
+        private string GetGeoFile(string fileName, string tempFileName, DirectoryInfo directoryInfo)
+        {
+            string rigthFile = string.Empty;
+            this.FastZipUnpack(fileName, directoryInfo.FullName);
+
+            string[] shapeExtensionFiles = Directory.GetFiles(directoryInfo.FullName, "*.shp");
+            string[] tabExtensionFiles = Directory.GetFiles(directoryInfo.FullName, "*.tab");
+            string[] mifExtensionFiles = Directory.GetFiles(directoryInfo.FullName, "*.mif");
+
+            if (shapeExtensionFiles.Length != 0)
+            {
+                rigthFile = shapeExtensionFiles.First();
+            }
+            else if (tabExtensionFiles.Length != 0)
+            {
+                rigthFile = tabExtensionFiles.First();
+            }
+            else if (mifExtensionFiles.Length != 0)
+            {
+                rigthFile = mifExtensionFiles.First();
+            }
+
+            return rigthFile;
         }
     }
 }
