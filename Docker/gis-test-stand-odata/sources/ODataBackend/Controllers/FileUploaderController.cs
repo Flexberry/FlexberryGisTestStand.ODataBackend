@@ -39,7 +39,7 @@
         /// </summary>
         /// <param name="data">File with geodata.</param>
         /// <returns>Geodata in json format.</returns>
-        [HttpPost("convertingSpatialFilesToJson")]
+        [HttpPost("convertSpatialFilesToJson")]
         public async Task<IActionResult> ConvertSpatialFilesToJson(IFormFile data)
         {
             try
