@@ -17,8 +17,6 @@ RUN apt-get update && \
 
 WORKDIR /app
 
-COPY /sources/ODataBackend/shared /app/shared
-
 COPY --from=backend /sources/out ./
 
 # Check webapi responses
