@@ -15,8 +15,4 @@ WORKDIR /app
 
 COPY --from=backend /sources/out ./
 
-# Check webapi responses
-HEALTHCHECK --interval=60s --timeout=15s --start-period=20s \
-  CMD curl -f "http://0.0.0.0/health" || exit
-
 ENTRYPOINT ["dotnet", "FlexberryGisTestStand.ODataBackend.dll"]
